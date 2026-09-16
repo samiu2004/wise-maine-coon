@@ -1,0 +1,105 @@
+---
+import "@/styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  image?: string | null;
+  article?: {
+    published: string;
+    updated: string;
+  } | null;
+}
+
+const {
+  title,
+  description,
+  canonicalPath = Astro.url.pathname,
+  image = null,
+  article = null
+} = Astro.props;
+
+const siteName = "Wise Maine Coon";
+const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
+const canonical = new URL(canonicalPath, "https://www.wisemainecoon.com");
+const structuredData = article ? {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: title,
+  description,
+  datePublished: article.published,
+  dateModified: article.updated,
+  mainEntityOfPage: canonical.toString(),
+  author: { "@type": "Person", name: "Sami" },
+  publisher: { "@type": "Organization", name: siteName },
+  ...(image ? { image } : {})
+} : {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: siteName,
+  url: "https://www.wisemainecoon.com/",
+  description
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#123c31" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{fullTitle}</title>
+    <meta property="og:type" content={article ? "article" : "website"} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {image && <meta property="og:image" content={image} />}
+    <meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9M0SQNNPMW"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-9M0SQNNPMW');
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="Wise Maine Coon home">
+          <span class="brand-mark" aria-hidden="true">W</span>
+          <span>Wise Maine Coon</span>
+        </a>
+        <nav aria-label="Primary navigation">
+          <a href="/#guides">Guides</a>
+          <a href="/2026/09/maine-coon-litter-box-guide.html">Litter boxes</a>
+          <a href="/p/about-wise-maine-coon.html">About</a>
+        </nav>
+      </div>
+    </header>
+    <main id="main-content">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="footer-brand" href="/">Wise Maine Coon</a>
+          <p>Research-based guidance for measuring, comparing and preparing.</p>
+        </div>
+        <nav aria-label="Footer navigation">
+          <a href="/p/editorial-policy.html">Editorial Policy</a>
+          <a href="/p/privacy-policy.html">Privacy Policy</a>
+          <a href="/p/disclaimer.html">Disclaimer</a>
+          <a href="/p/contact.html">Contact</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

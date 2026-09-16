@@ -1,0 +1,7 @@
+---
+import ContentPage from "@/components/ContentPage.astro";
+import content from "@/data/content.json";
+const page = content.find((item) => item.path === "/p/about-wise-maine-coon.html");
+if (!page) throw new Error("Missing imported page: /p/about-wise-maine-coon.html");
+---
+<ContentPage page={page} />

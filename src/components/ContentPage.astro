@@ -1,0 +1,58 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+interface PageData {
+  type: string;
+  title: string;
+  path: string;
+  description: string;
+  published: string;
+  updated: string;
+  labels: string[];
+  heroImage: string | null;
+  html: string;
+}
+
+const { page } = Astro.props as { page: PageData };
+const isArticle = page.type === "POST";
+const publishedLabel = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric"
+}).format(new Date(page.published));
+---
+
+<BaseLayout
+  title={page.title}
+  description={page.description}
+  canonicalPath={page.path}
+  image={page.heroImage}
+  article={isArticle ? { published: page.published, updated: page.updated } : null}
+>
+  <article class:list={["content-page", { "article-page": isArticle, "policy-page": !isArticle }]}>
+    <header class="article-header">
+      {isArticle && <p class="eyebrow">Practical Maine Coon guide</p>}
+      <h1>{page.title}</h1>
+      <p class="article-summary">{page.description}</p>
+      {isArticle && (
+        <div class="article-meta">
+          <span>By Sami</span>
+          <span aria-hidden="true">·</span>
+          <time datetime={page.published}>{publishedLabel}</time>
+          <span aria-hidden="true">·</span>
+          <span>Research-based</span>
+        </div>
+      )}
+    </header>
+    <div class="article-layout">
+      <div class="article-body" set:html={page.html} />
+      {isArticle && (
+        <aside class="article-aside" aria-label="Guide note">
+          <p class="aside-label">How to use this guide</p>
+          <p>Measure your own cat and verify current product details. Breed averages are useful starting points, not individual diagnoses.</p>
+          <a href="/p/editorial-policy.html">Our research standards</a>
+        </aside>
+      )}
+    </div>
+  </article>
+</BaseLayout>

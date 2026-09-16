@@ -1,0 +1,79 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import content from "@/data/content.json";
+
+const articles = content.filter((item) => item.type === "POST");
+const featured = articles.find((item) => item.path.includes("litter-box")) ?? articles[0];
+const remaining = articles.filter((item) => item.path !== featured.path);
+---
+
+<BaseLayout
+  title="Wise Maine Coon"
+  description="Measurement-led buying guidance and practical resources for prospective and first-time Maine Coon owners."
+  canonicalPath="/"
+>
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Measure first. Choose with confidence.</p>
+        <h1>Practical decisions for living with a very large cat.</h1>
+        <p>Compare fit, size and setup using your cat’s measurements—not vague “XL” labels or one-size-fits-all advice.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href={featured.path}>Start with litter-box fit</a>
+          <a class="button button-secondary" href="#guides">Browse all guides</a>
+        </div>
+      </div>
+      <div class="measure-card" aria-label="Measurement principle">
+        <span class="measure-number">1.5×</span>
+        <p class="measure-title">A useful litter-box starting point</p>
+        <p>Measure from the nose to the base of the tail, then compare that number with the usable interior—not the outside rim.</p>
+        <div class="ruler" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured-guide section-shell" aria-labelledby="featured-title">
+    <div class="featured-image">
+      {featured.heroImage && <img src={featured.heroImage} alt="Maine Coon at home" width="1125" height="750" />}
+    </div>
+    <div class="featured-copy">
+      <p class="eyebrow">Featured decision guide</p>
+      <h2 id="featured-title">{featured.title}</h2>
+      <p>{featured.description}</p>
+      <a class="text-link" href={featured.path}>Read the guide <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <section class="guides section-shell" id="guides" aria-labelledby="guides-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">The current library</p>
+        <h2 id="guides-title">Seven guides, one practical foundation.</h2>
+      </div>
+      <p>Use these resources to understand size, daily care and home setup while our measurement tools are developed.</p>
+    </div>
+    <div class="guide-grid">
+      {remaining.map((article, index) => (
+        <article class="guide-card">
+          <span class="guide-index">0{index + 1}</span>
+          <h3><a href={article.path}>{article.title}</a></h3>
+          <p>{article.description}</p>
+          <a class="card-link" href={article.path} aria-label={`Read ${article.title}`}>Open guide <span aria-hidden="true">→</span></a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="method-band">
+    <div class="section-shell method-grid">
+      <div>
+        <p class="eyebrow">Transparent by design</p>
+        <h2>Research without pretending to own, breed or treat Maine Coons.</h2>
+      </div>
+      <div>
+        <p>Wise Maine Coon uses veterinary and institutional sources, published product specifications and clearly labeled limitations. We correct errors and distinguish general education from veterinary advice.</p>
+        <a class="text-link light-link" href="/p/editorial-policy.html">Read the editorial policy <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

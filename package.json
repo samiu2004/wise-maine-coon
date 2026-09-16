@@ -1,0 +1,20 @@
+{
+  "name": "wise-maine-coon",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "verify": "node scripts/verify-build.mjs",
+    "preview": "astro preview",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "astro": "7.3.2"
+  },
+  "devDependencies": {
+    "wrangler": "4.132.0",
+    "xml-js": "^1.6.11"
+  }
+}
