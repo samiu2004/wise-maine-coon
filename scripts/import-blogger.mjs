@@ -2,8 +2,18 @@ import fs from "node:fs";
 import path from "node:path";
 import { xml2js } from "xml-js";
 
-const feedPath = "/tmp/wmc-migration/extracted/Takeout/Blogger/Blogs/Wise Maine Coon/feed.atom";
-const projectRoot = "/workspace/scratch/2817fc182e05/wisemainecoon-site";
+const feedArgument = process.argv[2];
+if (!feedArgument) {
+  console.error("Usage: node scripts/import-blogger.mjs /absolute/path/to/feed.atom");
+  process.exit(1);
+}
+
+const feedPath = path.resolve(feedArgument);
+const projectRoot = process.cwd();
+if (!fs.existsSync(feedPath)) {
+  console.error(`Blogger feed not found: ${feedPath}`);
+  process.exit(1);
+}
 const feedXml = fs.readFileSync(feedPath, "utf8");
 const doc = xml2js(feedXml, { compact: true, trim: false, alwaysArray: false });
 const entries = Array.isArray(doc.feed.entry) ? doc.feed.entry : [doc.feed.entry];
