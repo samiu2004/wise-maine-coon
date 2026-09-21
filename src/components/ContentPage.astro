@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import content from "@/data/content.json";
 
 interface PageData {
   type: string;
@@ -15,6 +16,28 @@ interface PageData {
 
 const { page } = Astro.props as { page: PageData };
 const isArticle = page.type === "POST";
+const sections: {id: string; title: string}[] = [];
+let body = page.html.replace(/<p(?:\s[^>]*)?>\s*(?:<em>\s*<\/em>|<br\s*\/?>|&nbsp;|\s)*<\/p>/gi, "");
+body = body.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (_match, attrs, heading) => {
+  const existing = attrs.match(/id=["']([^"']+)["']/);
+  const id = existing?.[1] ?? `section-${sections.length + 1}`;
+  sections.push({id, title: heading.replace(/<[^>]+>/g, "")});
+  return `<h2${attrs}${existing ? "" : ` id="${id}"`}>${heading}</h2>`;
+});
+const quickMatch = body.match(/<p[^>]*>\s*<strong>Quick answer:<\/strong>[\s\S]*?<\/p>/i);
+const quickAnswer = quickMatch?.[0] ?? null;
+if (quickAnswer) body = body.replace(quickAnswer, "");
+const relatedTopics: Record<string, string[]> = {
+  "litter-box": ["size-growth", "care-guide"],
+  "food-guide": ["size-growth", "care-guide"],
+  "size-growth": ["food-guide", "litter-box"],
+  "grooming": ["care-guide", "lifespan"],
+  "care-guide": ["food-guide", "grooming"],
+  "personality": ["care-guide", "litter-box"],
+  "lifespan": ["care-guide", "grooming"]
+};
+const relatedKeys = Object.entries(relatedTopics).find(([key]) => page.path.includes(key))?.[1] ?? [];
+const related = relatedKeys.map(key => content.find(item => item.type === "POST" && item.path.includes(key))).filter(Boolean);
 const publishedLabel = new Intl.DateTimeFormat("en-US", {
   month: "long",
   day: "numeric",
@@ -36,7 +59,7 @@ const publishedLabel = new Intl.DateTimeFormat("en-US", {
       <p class="article-summary">{page.description}</p>
       {isArticle && (
         <div class="article-meta">
-          <span>By Sami</span>
+          <span>By <a href="/p/about-wise-maine-coon.html">Sami Ullah</a></span>
           <span aria-hidden="true">·</span>
           <time datetime={page.published}>{publishedLabel}</time>
           <span aria-hidden="true">·</span>
@@ -44,12 +67,23 @@ const publishedLabel = new Intl.DateTimeFormat("en-US", {
         </div>
       )}
     </header>
+    {quickAnswer && <section class="quick-answer" aria-label="Quick answer" set:html={quickAnswer} />}
     <div class="article-layout">
-      <div class="article-body" set:html={page.html} />
+      <div class="article-body">
+        <div set:html={body} />
+        {isArticle && related.length > 0 && <nav class="related-guides" aria-label="Related guides">
+          <h2>Continue with a related guide</h2>
+          <ul>{related.map(item => item && <li><a href={item.path}>{item.title}</a></li>)}</ul>
+        </nav>}
+      </div>
       {isArticle && (
         <aside class="article-aside" aria-label="Guide note">
-          <p class="aside-label">How to use this guide</p>
-          <p>Measure your own cat and verify current product details. Breed averages are useful starting points, not individual diagnoses.</p>
+          <details>
+          <summary class="aside-label">On this page</summary>
+          <nav class="article-toc" aria-label="Article sections">
+            {sections.map(section => <a href={`#${section.id}`} set:html={section.title} />)}
+          </nav>
+          </details>
           <a href="/p/editorial-policy.html">Our research standards</a>
         </aside>
       )}

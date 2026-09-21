@@ -6,6 +6,7 @@ interface Props {
   description: string;
   canonicalPath?: string;
   image?: string | null;
+  preview?: boolean;
   article?: {
     published: string;
     updated: string;
@@ -17,6 +18,7 @@ const {
   description,
   canonicalPath = Astro.url.pathname,
   image = null,
+  preview = false,
   article = null
 } = Astro.props;
 
@@ -50,6 +52,7 @@ const structuredData = article ? {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#123c31" />
+    {preview && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{fullTitle}</title>
@@ -61,13 +64,13 @@ const structuredData = article ? {
     {image && <meta property="og:image" content={image} />}
     <meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9M0SQNNPMW"></script>
-    <script is:inline>
+    {!preview && <script async src="https://www.googletagmanager.com/gtag/js?id=G-9M0SQNNPMW"></script>}
+    {!preview && <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-9M0SQNNPMW');
-    </script>
+    </script>}
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>

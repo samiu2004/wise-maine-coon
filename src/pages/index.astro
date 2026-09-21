@@ -9,26 +9,27 @@ const remaining = articles.filter((item) => item.path !== featured.path);
 
 <BaseLayout
   title="Wise Maine Coon"
-  description="Measurement-led buying guidance and practical resources for prospective and first-time Maine Coon owners."
+  description="Practical Maine Coon care, feeding, grooming, growth and litter-box guidance for prospective and first-time owners."
   canonicalPath="/"
 >
   <section class="hero">
     <div class="hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow">Measure first. Choose with confidence.</p>
-        <h1>Practical decisions for living with a very large cat.</h1>
-        <p>Compare fit, size and setup using your cat’s measurements—not vague “XL” labels or one-size-fits-all advice.</p>
+        <p class="eyebrow">Understand your cat. Plan everyday care.</p>
+        <h1>Practical Maine Coon care, sizing and home setup.</h1>
+        <p>Find a feeding routine, understand growth, manage grooming, or choose a litter-box setup for your cat.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href={featured.path}>Start with litter-box fit</a>
-          <a class="button button-secondary" href="#guides">Browse all guides</a>
+          <a class="button button-primary" href="#guides">Explore care guides</a>
+          <a class="hero-secondary-link" href="/2026/08/maine-coon-care-guide.html">Start with everyday care</a>
         </div>
       </div>
-      <div class="measure-card" aria-label="Measurement principle">
-        <span class="measure-number">1.5×</span>
-        <p class="measure-title">A useful litter-box starting point</p>
-        <p>Measure from the nose to the base of the tail, then compare that number with the usable interior—not the outside rim.</p>
-        <div class="ruler" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-      </div>
+      <nav class="intent-nav" aria-label="Choose a topic">
+        <p>What do you need help with?</p>
+        <a href="/2026/08/maine-coon-food-guide.html">Feeding <span>Food, portions and routines</span></a>
+        <a href="/2026/08/maine-coon-size-growth-guide.html">Size &amp; growth <span>Weight ranges and development</span></a>
+        <a href="/2026/08/maine-coon-grooming-guide.html">Grooming <span>Brushing, shedding and mats</span></a>
+        <a href={featured.path}>Litter-box setup <span>Size, access and placement</span></a>
+      </nav>
     </div>
   </section>
 
@@ -47,10 +48,10 @@ const remaining = articles.filter((item) => item.path !== featured.path);
   <section class="guides section-shell" id="guides" aria-labelledby="guides-title">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">The current library</p>
-        <h2 id="guides-title">Seven guides, one practical foundation.</h2>
+        <p class="eyebrow">Explore by need</p>
+        <h2 id="guides-title">Guides for everyday decisions.</h2>
       </div>
-      <p>Use these resources to understand size, daily care and home setup while our measurement tools are developed.</p>
+      <p>Start with the question you have today, then follow related guides for the next step in your cat’s care.</p>
     </div>
     <div class="guide-grid">
       {remaining.map((article, index) => (
@@ -68,7 +69,7 @@ const remaining = articles.filter((item) => item.path !== featured.path);
     <div class="section-shell method-grid">
       <div>
         <p class="eyebrow">Transparent by design</p>
-        <h2>Research without pretending to own, breed or treat Maine Coons.</h2>
+        <h2>How we research our guides.</h2>
       </div>
       <div>
         <p>Wise Maine Coon uses veterinary and institutional sources, published product specifications and clearly labeled limitations. We correct errors and distinguish general education from veterinary advice.</p>

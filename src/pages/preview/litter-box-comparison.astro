@@ -1,0 +1,116 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+const products = [
+  { name: "PetFusion BetterBox", type: "Open / high-sided", price: "$109.99", url: "https://www.petmate.com/products/petfusion-betterbox-cat-litter-box", gap: "Usable floor and entry height unverified." },
+  { name: "Frisco High-Sided Extra Large", type: "Open / high-sided", price: "$23.99", url: "https://www.chewy.com/frisco-high-sided-cat-litter-box/dp/168285", gap: "24-inch overall length is not usable floor length." },
+  { name: "KittyGoHere Jumbo", type: "Open", price: "$75.00", url: "https://www.chewy.com/kittygohere-jumbo-pan-cat-litter-box/dp/4147534", gap: "Usable floor and entry height unverified." },
+  { name: "KittyGoHere Senior Large", type: "Low-entry / open", price: "$49.95", url: "https://www.chewy.com/kittygohere-senior-cat-litter-box/dp/229303", gap: "Low entrance does not establish interior fit." },
+  { name: "Modkat XL", type: "Covered", price: "$189.99", url: "https://modkat.com/products/modkat-xl-litter-box", gap: "Door dimensions are not usable floor dimensions." },
+  { name: "Catit Airsift Jumbo", type: "Covered", price: "$46.99", url: "https://www.chewy.com/catit-airsift-litter-pan/dp/49789", gap: "Door opening is published; threshold unverified." },
+  { name: "Litter-Robot 4", type: "Automatic", price: "$699.00", url: "https://www.whisker.com/litter-robot-4", gap: "Weight eligibility does not establish turning room." },
+  { name: "PetSafe ScoopFree SmartSpin", type: "Automatic", price: "$399.99", url: "https://www.petsafe.com/p/scoopfree-smartspin-self-cleaning-litter-box/PAL00-17985/", gap: "Elevated entrance; usable floor unverified." }
+];
+const title = "Maine Coon Litter Boxes Compared: Eight Options and Their Fit Limitations";
+---
+<BaseLayout title={title} description="Compare eight litter boxes by design, recorded price, access and measurement limitations. Research-based guidance with linked sources." preview={true}>
+  <article class="content-page comparison-page">
+    <header class="article-header">
+      <p class="eyebrow">Unpublished preview · Day 5</p>
+      <h1>{title}</h1>
+      <p class="article-summary">Start with usable space and an accessible entrance. Check what the specifications actually tell you before choosing a box.</p>
+      <div class="article-meta"><span>By <a href="/p/about-wise-maine-coon.html">Sami Ullah</a></span><span aria-hidden="true">·</span><span>Research-based comparison</span></div>
+    </header>
+    <div class="article-layout">
+      <div class="article-body">
+        <p class="disclosure"><em>This is a research-based comparison, not a hands-on product test. Confirm the exact model, measurements and suitability before buying.</em></p>
+        <h2 id="quick-answer">Which litter box should you consider?</h2>
+        <p>Start with an entrance your cat can use and enough usable space to move comfortably. An XL label or a higher price does not establish fit. An open pan lets you inspect the space more easily; with covered and automatic boxes, check the entrance and interior separately.</p>
+        <div class="evidence-note"><strong>Interior fit remains unverified.</strong> Our evidence sheet does not establish usable interior floor length and width for any of these eight products. Overall dimensions, doorway measurements and weight limits are not substitutes.</div>
+        <h2 id="comparison">Eight-product comparison</h2>
+        <p id="table-note">Prices were recorded in the evidence sheet on September 20, 2026, in US dollars. They are not guaranteed checkout prices. Product names link to the recorded sources.</p>
+        <p class="scroll-hint">On smaller screens, scroll the table sideways to compare all columns.</p>
+        <div class="table-scroll" role="region" aria-label="Eight-product comparison, scroll horizontally" tabindex="0">
+          <table aria-describedby="table-note">
+            <caption>Design, recorded price and the main fit limitation</caption>
+            <thead><tr><th scope="col">Product / source</th><th scope="col">Design</th><th scope="col">Recorded price</th><th scope="col">Fit limitation</th></tr></thead>
+            <tbody>{products.map(p => <tr><th scope="row"><a href={p.url}>{p.name}</a></th><td>{p.type}</td><td>{p.price}</td><td>{p.gap}</td></tr>)}</tbody>
+          </table>
+        </div>
+        <h2 id="open">Open and high-sided options</h2>
+        <h3>PetFusion BetterBox</h3>
+        <p>Petmate lists overall dimensions of 22.6 × 18.1 × 8 inches and describes high walls with a low entrance for older cats. The usable floor dimensions and exact entry height are not verified in our evidence. <a href={products[0].url}>Petmate specifications</a>.</p>
+        <p>Consider it if you want an open design with raised walls, but ask for the entrance height and interior floor measurements before deciding.</p>
+        <h3>Frisco High-Sided Extra Large</h3>
+        <p>The listed overall dimensions are 24 × 18 × 10 inches. The 24-inch label describes the overall box, not a verified usable floor length. <a href={products[1].url}>Frisco listing at Chewy</a>.</p>
+        <p>It is a lower-priced option in this comparison. Confirm the floor space and entrance height rather than choosing on price or the Extra Large label alone.</p>
+        <h3>KittyGoHere Jumbo</h3>
+        <p>The Jumbo listing gives overall dimensions of 28 × 22 × 9 inches. These do not establish the usable floor dimensions or an exact entry threshold. <a href={products[2].url}>KittyGoHere Jumbo listing</a>.</p>
+        <p>Check both the room space needed for the box and the space available to your cat inside it.</p>
+        <h2 id="low-entry">A low-entry option</h2>
+        <h3>KittyGoHere Senior Large</h3>
+        <p>Chewy lists overall dimensions of 24 × 20 × 5 inches. Its product Q&amp;A describes an opening 3 inches from the bottom. Usable interior floor dimensions remain unverified. <a href={products[3].url}>Senior Large listing and Q&amp;A</a>.</p>
+        <p>This is an option to investigate when entry access matters. A lower entrance alone does not guarantee that a particular cat will fit or use it comfortably.</p>
+        <h2 id="covered">Covered options</h2>
+        <h3>Modkat XL</h3>
+        <p>Modkat specifies a front entrance 6.25 inches above the floor, with an opening 8.3 inches wide and 9.8 inches high. The stated 30-pound capacity refers to the lid, not a cat weight limit. <a href={products[4].url}>Modkat XL specifications</a>.</p>
+        <p>Check the front entrance carefully for a cat with mobility limitations. Neither the door size nor the lid capacity establishes comfortable interior space.</p>
+        <h3>Catit Airsift Jumbo</h3>
+        <p>The listed door opening is 9.6 inches wide and 10.4 inches high, and the door is removable. Door height is not the height a cat must step over; that threshold is unverified here. <a href={products[5].url}>Catit Jumbo listing</a>.</p>
+        <p>Confirm the threshold and usable interior before choosing a covered model.</p>
+        <h2 id="automatic">Automatic options</h2>
+        <h3>Litter-Robot 4</h3>
+        <p>Whisker gives a cat weight range of 3 to 25 pounds, a 15.75-inch-square entrance and 16.5 inches of interior height. We do not have verified usable interior floor length and width. <a href={products[6].url}>Whisker specifications</a>.</p>
+        <p>Weight eligibility is a separate check from physical fit. Confirm that your cat has adequate space and review the exact model's operating instructions.</p>
+        <h3>PetSafe ScoopFree SmartSpin</h3>
+        <p>PetSafe describes an entrance 12 inches above the ground and suitability for cats up to 25 pounds. Usable interior floor dimensions remain unverified. <a href={products[7].url}>PetSafe specifications</a>.</p>
+        <p>The elevated entrance deserves particular attention if stepping or climbing is difficult for your cat. A weight limit does not establish access or turning room.</p>
+        <h2 id="mobility">Mobility considerations</h2>
+        <p>Prioritize an entrance your cat can manage comfortably. Compare the step-over height separately from the door's width and height. Do not assume an automatic or covered box is accessible simply because your cat falls within its stated weight range.</p>
+        <p>Where a measurement is missing, keep the result as <strong>Fit not verified</strong>. Ask the manufacturer or seller for the exact measurement rather than estimating it from a photograph.</p>
+        <h2 id="measure">How to measure and check the specifications</h2>
+        <ol>
+          <li>Measure your cat's body from the nose to the base of the tail, excluding the tail.</li>
+          <li>Ask for usable interior floor length and width, not exterior or shipping dimensions.</li>
+          <li>For covered boxes, check interior height and doorway width as separate measurements.</li>
+          <li>Measure the entrance threshold from the ground. Do not substitute the height of the door opening.</li>
+          <li>For automatic boxes, review the exact model's weight, age and operating restrictions.</li>
+          <li>If the necessary measurements are unavailable, record <strong>Fit not verified</strong>.</li>
+        </ol>
+        <h2 id="faq">Frequently asked questions</h2>
+        <h3>Does XL mean a box fits every Maine Coon?</h3>
+        <p>No. Use the exact model's measurements and your cat's needs rather than the size label alone.</p>
+        <h3>Can I use exterior dimensions as interior dimensions?</h3>
+        <p>No. This comparison keeps overall dimensions separate from usable floor space. Missing interior measurements stay unverified.</p>
+        <h3>Does being under the weight limit mean my cat fits?</h3>
+        <p>No. Weight eligibility does not tell you whether your cat can enter, turn and use the box comfortably.</p>
+        <h3>What should I do when measurements are missing?</h3>
+        <p>Ask the manufacturer or seller for usable floor dimensions and entrance height for the exact model. Avoid a fit claim until those details are verified.</p>
+        <h2>Continue with the sizing guide</h2>
+        <p>For the existing sizing guidance and setup considerations, read our <a href="/2026/09/maine-coon-litter-box-guide.html">Maine Coon litter-box guide</a>.</p>
+      </div>
+      <aside class="article-aside" aria-label="On this page">
+        <p class="aside-label">Compare with care</p>
+        <p>No guaranteed-fit ranking. Missing measurements remain visible.</p>
+        <nav aria-label="Article sections"><a href="#comparison">Comparison table</a><a href="#open">Open boxes</a><a href="#low-entry">Low-entry option</a><a href="#covered">Covered boxes</a><a href="#automatic">Automatic boxes</a><a href="#mobility">Mobility</a><a href="#measure">Measurement checks</a><a href="#faq">FAQs</a></nav>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>
+<style>
+  .article-header { max-width: 1000px; }
+  .article-header h1 { font-size: clamp(2rem, 3.6vw, 3.2rem); }
+  .article-layout { grid-template-columns: minmax(0, 860px) minmax(190px, 240px); gap: 28px; }
+  .disclosure { color: var(--muted); font-size: .94rem; }
+  .evidence-note { background: var(--soft); border-left: 4px solid var(--pine); border-radius: 0 12px 12px 0; padding: 20px; }
+  .evidence-note strong { display: block; margin-bottom: 6px; }
+  .table-scroll { overflow-x: auto; max-width: 100%; margin: 24px 0; }
+  .table-scroll:focus-visible { outline: 3px solid var(--pine); outline-offset: 3px; }
+  .article-body table { min-width: 620px; margin: 0; display: table; }
+  caption { text-align: left; padding: 0 0 12px; color: var(--muted); }
+  tbody th { background: white; color: var(--ink); font-weight: 700; width: 27%; }
+  tbody tr:nth-child(even) th { background: #f7faf7; }
+  .scroll-hint { font-size: .85rem; color: var(--muted); }
+  aside nav { display: grid; gap: 10px; font-size: .92rem; }
+  h2, h3 { scroll-margin-top: 100px; }
+  @media(max-width: 900px) { .article-layout { grid-template-columns: minmax(0, 1fr); } .article-aside { order: 0; } }
+</style>
