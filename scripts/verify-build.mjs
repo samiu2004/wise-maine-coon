@@ -3,7 +3,7 @@ import path from "node:path";
 import content from "../src/data/content.json" with { type: "json" };
 
 const root = path.resolve("dist");
-const expected = ["/", ...content.map((item) => item.path)];
+const expected = ["/", "/maine-coon-litter-box-comparison.html", ...content.map((item) => item.path)];
 const failures = [];
 
 function outputFile(urlPath) {
