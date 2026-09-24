@@ -4,6 +4,7 @@ export default defineConfig({
   site: "https://www.wisemainecoon.com",
   output: "static",
   build: {
-    format: "preserve"
+    format: "preserve",
+    inlineStylesheets: "always"
   }
 });
