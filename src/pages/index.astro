@@ -36,7 +36,7 @@ const remaining = articles.filter((item) => item.path !== featured.path);
 
   <section class="featured-guide section-shell" aria-labelledby="featured-title">
     <div class="featured-image">
-      {featured.heroImage && <img src={featured.heroImage} alt="Maine Coon at home" width="1125" height="750" />}
+      {featured.heroImage && <img src={featured.heroImage} alt="Maine Coon at home" width="1125" height="750" loading="lazy" decoding="async" fetchpriority="low" />}
     </div>
     <div class="featured-copy">
       <p class="eyebrow">Featured decision guide</p>
