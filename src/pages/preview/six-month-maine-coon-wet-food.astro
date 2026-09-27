@@ -1,0 +1,76 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const title = "How Much Wet Food Should a Six-Month-Old Maine Coon Eat?";
+const cornell = "https://www.vet.cornell.edu/departments/cornell-feline-health-center/health-information/feline-health-topics/how-often-should-you-feed-your-cat";
+const fda = "https://www.fda.gov/animal-veterinary/animal-health-literacy/complete-and-balanced-pet-food";
+const selecting = "https://wsava.org/wp-content/uploads/2021/04/Selecting-a-pet-food-for-your-pet-updated-2021_WSAVA-Global-Nutrition-Toolkit.pdf";
+const nutrition = "https://wsava.org/global-guidelines/global-nutrition-guidelines/";
+const condition = "https://wsava.org/wp-content/uploads/2020/08/Body-Condition-Score-cat-updated-August-2020.pdf";
+---
+<BaseLayout title={title} description="Work out a starting wet-food portion for a six-month-old Maine Coon using the food label, total daily calories, growth and body condition." preview={true} canonicalPath="/preview/six-month-maine-coon-wet-food.html">
+  <article class="content-page">
+    <header class="article-header">
+      <p class="eyebrow">Unpublished article preview</p>
+      <h1>{title}</h1>
+      <p class="article-summary">Use the calorie label and your kitten's individual needs to find a sensible starting portion.</p>
+    </header>
+    <div class="article-layout">
+      <div class="article-body">
+        <p>The answer is in the calories, not the number of cans. A six-month-old Maine Coon may eat more or less than another kitten of the same age, and one can of wet food may contain very different calories from another. To find a useful starting portion, you need the food label, an estimate of your kitten's daily calorie needs, and a record of anything else they eat.</p>
+        <p>If you're looking at a feeding chart and wondering why it doesn't quite match your kitten, you're not doing anything wrong. Those charts are general starting points. Your kitten's growth and body condition tell you whether the portion needs to change. Cornell notes that feeding directions on labels are based on an average cat, so the right amount can differ from the printed guide. <a href={cornell}>Cornell Feline Health Center</a></p>
+
+        <h2 id="label">Start with the right food and its calorie label</h2>
+        <p>Look for the small nutritional adequacy statement on the can or pouch. For a growing kitten, the food should say it is complete and balanced for <strong>growth</strong> or <strong>all life stages</strong>. A food labeled for adult maintenance alone is not the right basis for a kitten's entire diet. The FDA explains what these life-stage claims mean. <a href={fda}>FDA: Complete and Balanced Pet Food</a></p>
+        <p>Next, find the calories, usually shown as <strong>kcal per can</strong>, <strong>kcal per pouch</strong>, or <strong>kcal per kilogram</strong>. If the label gives calories by weight, use the amount you actually serve. Don't assume two cans of the same size provide the same calories. WSAVA recommends checking both the life-stage statement and the calorie information when choosing a food. <a href={selecting}>WSAVA: Selecting a Pet Food</a></p>
+
+        <h2 id="portion">Turn a daily target into a wet-food portion</h2>
+        <p>Ask your veterinarian for a daily calorie starting point based on your kitten's weight, growth, and body condition. Once you have one, add up the calories from dry food, treats, and any extras. The remaining calories are the amount you can allocate to wet food. Divide that remainder by the wet food's calories per can.</p>
+        <p>For example, suppose a veterinarian sets a <strong>hypothetical</strong> daily target of 300 kcal. Your kitten also eats 50 kcal of dry food and treats, and the wet food label says 100 kcal per can. That leaves 250 kcal for wet food, or 2.5 cans over the day. This is an example of the math, <strong>not</strong> a portion recommendation for your kitten. If you change the food, do the calculation again using the new label. WSAVA's nutrition guidance considers the whole diet, including extras, when assessing a feeding plan. <a href={nutrition}>WSAVA: Nutrition Guidelines</a></p>
+
+        <h2 id="meals">What about meal times?</h2>
+        <p>Cornell says that feeding twice a day is generally suitable between six months and one year. You can divide the measured daily portion between morning and evening meals. If your veterinarian has suggested another schedule, follow that advice while keeping track of the total eaten across the day. <a href={cornell}>Cornell Feline Health Center</a></p>
+
+        <h2 id="growth">Let growth guide the next adjustment</h2>
+        <p>The first portion is a starting point. Keep a simple note of your kitten's weight, the food offered, and what they actually finish. At veterinary visits, ask how their growth and body condition look together. WSAVA's cat body condition guide considers the ribs, waist, and body shape; your veterinarian can help interpret those signs in a growing kitten. <a href={condition}>WSAVA: Cat Body Condition Score</a></p>
+        <p>If your kitten's appetite changes persistently, their growth concerns you, or they have a medical condition, speak with your veterinarian about the portion. If they stop eating or seem unwell, seek veterinary advice promptly. Bringing the label and a few days of feeding notes makes that conversation more useful.</p>
+
+        <h2 id="questions">A few common questions</h2>
+        <h3>Can wet food be the whole diet?</h3>
+        <p>Yes, if the particular food is labeled complete and balanced for growth or all life stages and the amount meets your kitten's needs. Check the adequacy statement carefully: a food intended only for supplemental or intermittent feeding is not meant to be the sole diet. <a href={fda}>FDA</a></p>
+        <h3>Should I use a standard can count for Maine Coons?</h3>
+        <p>No. The breed name doesn't tell you how many calories are in a can or what your individual kitten needs today. Use your kitten's growth, body condition, other food, and the product's calorie label to decide on a starting amount with your veterinarian.</p>
+        <h3>What if I feed both wet and dry food?</h3>
+        <p>Measure both. Count the dry food and treats as part of the day's total, then use the remaining calories to work out the wet-food amount. The same approach works if you change the balance between wet and dry food later.</p>
+        <p>For broader advice on choosing food and setting a routine, see our <a href="/2026/08/maine-coon-food-guide.html">Maine Coon food guide</a>.</p>
+
+        <h2 id="sources">Sources</h2>
+        <ul>
+          <li><a href={fda}>FDA: Complete and Balanced Pet Food</a></li>
+          <li><a href={cornell}>Cornell Feline Health Center: How Often Should You Feed Your Cat?</a></li>
+          <li><a href={selecting}>WSAVA: Selecting a Pet Food for Your Pet</a></li>
+          <li><a href={nutrition}>WSAVA: Global Nutrition Guidelines</a></li>
+          <li><a href={condition}>WSAVA: Body Condition Score, Cat</a></li>
+        </ul>
+      </div>
+      <aside class="article-aside" aria-label="On this page">
+        <p class="aside-label">Feeding guide</p>
+        <p>Start with the label, then watch your kitten's growth.</p>
+        <nav aria-label="Article sections">
+          <a href="#label">Read the label</a>
+          <a href="#portion">Work out a portion</a>
+          <a href="#meals">Meal times</a>
+          <a href="#growth">Growth and body condition</a>
+          <a href="#questions">Common questions</a>
+          <a href="#sources">Sources</a>
+        </nav>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>
+<style>
+  .article-body { min-width: 0; }
+  .article-aside nav { display: grid; gap: 10px; }
+  .article-header h1 { max-width: 940px; margin-inline: auto; }
+  @media (max-width: 900px) { .article-layout { grid-template-columns: minmax(0, 1fr); } }
+</style>
