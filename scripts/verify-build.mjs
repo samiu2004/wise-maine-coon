@@ -36,6 +36,34 @@ for (const required of ["robots.txt", "sitemap.xml", "favicon.svg", "404.html"])
   if (!fs.existsSync(path.join(root, required))) failures.push(`Missing required asset: ${required}`);
 }
 
+const sitemap = fs.readFileSync(path.join(root, "sitemap.xml"), "utf8");
+const sitemapPaths = [...sitemap.matchAll(/<loc>https:\/\/www\.wisemainecoon\.com([^<]+)<\/loc>/g)].map((match) => match[1]);
+const homepage = fs.readFileSync(path.join(root, "index.html"), "utf8");
+const publishedHtml = [];
+function collectPublicHtml(dir) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      if (entry.name !== "preview") collectPublicHtml(full);
+    } else if (entry.name.endsWith(".html") && entry.name !== "404.html") {
+      const route = `/${path.relative(root, full).split(path.sep).join("/")}`;
+      publishedHtml.push(route === "/index.html" ? "/" : route);
+    }
+  }
+}
+collectPublicHtml(root);
+for (const urlPath of publishedHtml) {
+  if (!sitemapPaths.includes(urlPath)) failures.push(`Published page missing from sitemap: ${urlPath}`);
+  if (urlPath.startsWith("/2026/") && !content.some((item) => item.path === urlPath) &&
+      !homepage.includes(`href="${urlPath}"`)) {
+    failures.push(`New article missing from homepage: ${urlPath}`);
+  }
+}
+for (const urlPath of sitemapPaths) {
+  if (!publishedHtml.includes(urlPath)) failures.push(`Non-public route in sitemap: ${urlPath}`);
+}
+if (new Set(sitemapPaths).size !== sitemapPaths.length) failures.push("Duplicate sitemap URL");
+
 const doubledExtensions = [];
 function scan(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {

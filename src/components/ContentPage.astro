@@ -41,6 +41,10 @@ const relatedTopics: Record<string, string[]> = {
 };
 const relatedKeys = Object.entries(relatedTopics).find(([key]) => page.path.includes(key))?.[1] ?? [];
 const related = relatedKeys.map(key => content.find(item => item.type === "POST" && item.path.includes(key))).filter(Boolean);
+const topicId = page.path.includes("litter-box") ? "litter"
+  : page.path.includes("food") ? "feeding"
+  : page.path.includes("size") ? "growth" : "care";
+const topicLabel = { litter: "litter-box guides", feeding: "feeding guides", growth: "size and growth guides", care: "grooming and care guides" }[topicId];
 const publishedLabel = new Intl.DateTimeFormat("en-US", {
   month: "long",
   day: "numeric",
@@ -77,6 +81,7 @@ const publishedLabel = new Intl.DateTimeFormat("en-US", {
         {isArticle && related.length > 0 && <nav class="related-guides" aria-label="Related guides">
           <h2>Continue with a related guide</h2>
           <ul>{related.map(item => item && <li><a href={item.path}>{item.title}</a></li>)}</ul>
+          <p><a href={`/#${topicId}`}>Browse all {topicLabel}</a></p>
         </nav>}
       </div>
       {isArticle && (

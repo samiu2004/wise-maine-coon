@@ -4,7 +4,28 @@ import content from "@/data/content.json";
 
 const articles = content.filter((item) => item.type === "POST");
 const featured = articles.find((item) => item.path.includes("litter-box")) ?? articles[0];
-const remaining = articles.filter((item) => item.path !== featured.path);
+// A public article with an exported `listing` appears here when published.
+// Preview pages do not export a listing and are never shown to readers.
+const pageListings = Object.values(import.meta.glob("/src/pages/**/*.astro", { eager: true }))
+  .map((module) => (module as { listing?: unknown }).listing)
+  .filter((item): item is { title: string; path: string; description: string; published: string; topic: string } =>
+    typeof item === "object" && item !== null && "published" in item && "path" in item);
+const topicFor = (path: string) => {
+  if (path.includes("food") || path.includes("feeding")) return "feeding";
+  if (path.includes("size") || path.includes("growth")) return "growth";
+  if (path.includes("litter-box")) return "litter";
+  return "care";
+};
+const published = [
+  ...articles.map(({ title, path, description, published }) => ({ title, path, description, published, topic: topicFor(path) })),
+  ...pageListings
+].sort((a, b) => Date.parse(b.published) - Date.parse(a.published));
+const topics = [
+  { id: "feeding", title: "Feeding", summary: "Food choices, portions and daily routines." },
+  { id: "growth", title: "Size & growth", summary: "Weight, development and measuring." },
+  { id: "care", title: "Grooming & care", summary: "Coat care, health and everyday life." },
+  { id: "litter", title: "Litter boxes", summary: "Sizing, access and product comparisons." }
+];
 ---
 
 <BaseLayout
@@ -43,8 +64,27 @@ const remaining = articles.filter((item) => item.path !== featured.path);
       <p class="eyebrow">Featured decision guide</p>
       <h2 id="featured-title">{featured.title}</h2>
       <p>{featured.description}</p>
-      <a class="text-link" href={featured.path}>Read the guide <span aria-hidden="true">→</span></a>
+      <a class="text-link" href={featured.path}>Read the Maine Coon litter-box guide <span aria-hidden="true">→</span></a>
       <a class="text-link" href="/maine-coon-litter-box-comparison.html">Compare eight litter boxes <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <section class="latest-articles section-shell" aria-labelledby="latest-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Recently published</p>
+        <h2 id="latest-title">Latest articles</h2>
+      </div>
+      <p>Start with the newest research-based guide, then explore the topic that matters to you.</p>
+    </div>
+    <div class="latest-grid">
+      {published.slice(0, 3).map((article) => (
+        <article class="latest-card">
+          <time datetime={article.published}>{new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(article.published))}</time>
+          <h3><a href={article.path}>{article.title}</a></h3>
+          <p>{article.description}</p>
+        </article>
+      ))}
     </div>
   </section>
 
@@ -56,14 +96,17 @@ const remaining = articles.filter((item) => item.path !== featured.path);
       </div>
       <p>Start with the question you have today, then follow related guides for the next step in your cat’s care.</p>
     </div>
-    <div class="guide-grid">
-      {remaining.map((article, index) => (
-        <article class="guide-card">
-          <span class="guide-index">0{index + 1}</span>
-          <h3><a href={article.path}>{article.title}</a></h3>
-          <p>{article.description}</p>
-          <a class="card-link" href={article.path} aria-label={`Read ${article.title}`}>Open guide <span aria-hidden="true">→</span></a>
-        </article>
+    <div class="topic-grid">
+      {topics.map((topic) => (
+        <section class="topic-card" id={topic.id} aria-labelledby={`${topic.id}-title`}>
+          <h3 id={`${topic.id}-title`}>{topic.title}</h3>
+          <p>{topic.summary}</p>
+          <ul>
+            {published.filter((article) => article.topic === topic.id).map((article) => (
+              <li><a href={article.path}>{article.title}</a></li>
+            ))}
+          </ul>
+        </section>
       ))}
     </div>
   </section>

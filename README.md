@@ -27,6 +27,21 @@ npm run verify
 
 Review the generated pages before deployment.
 
+## Publishing a new article
+
+Keep drafts under `src/pages/preview/` with `preview={true}`. A preview is
+`noindex` and is omitted from the sitemap and homepage lists.
+
+To publish, create the final route under `src/pages/` and export a `listing`
+object from its Astro frontmatter with `title`, `path`, `description`,
+`published` (ISO date), and `topic` (`feeding`, `growth`, `care`, or `litter`).
+The homepage uses this metadata for the latest articles and topic groups. The
+sitemap discovers the published page automatically. Add a contextual link from
+its parent guide and a link back to that guide. Review its self-canonical,
+public byline, image rights and descriptive alt text, then run `npm run build`
+and `npm run verify` before deploying. Avoid changing the published date on an
+ordinary edit; use `updated` in the listing for a significant revision.
+
 ## Cloudflare deployment
 
 The project is configured in `wrangler.jsonc` for Cloudflare Workers Static

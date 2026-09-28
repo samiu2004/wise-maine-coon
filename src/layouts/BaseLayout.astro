@@ -36,7 +36,7 @@ const structuredData = article ? {
   datePublished: article.published,
   dateModified: article.updated,
   mainEntityOfPage: canonical.toString(),
-  author: { "@type": "Person", name: "Sami" },
+  author: { "@type": "Person", name: "Sami Ullah", url: "https://www.wisemainecoon.com/p/about-wise-maine-coon.html" },
   publisher: { "@type": "Organization", name: siteName },
   ...(imageUrl ? { image: imageUrl } : {})
 } : {
@@ -118,6 +118,7 @@ const structuredData = article ? {
           <p>Research-based guidance for measuring, comparing and preparing.</p>
         </div>
         <nav aria-label="Footer navigation">
+          <a href="/p/about-wise-maine-coon.html">About</a>
           <a href="/p/editorial-policy.html">Editorial Policy</a>
           <a href="/p/privacy-policy.html">Privacy Policy</a>
           <a href="/p/disclaimer.html">Disclaimer</a>
