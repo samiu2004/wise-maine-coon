@@ -54,7 +54,8 @@ function collectPublicHtml(dir) {
 collectPublicHtml(root);
 for (const urlPath of publishedHtml) {
   if (!sitemapPaths.includes(urlPath)) failures.push(`Published page missing from sitemap: ${urlPath}`);
-  if (urlPath.startsWith("/2026/") && !content.some((item) => item.path === urlPath) &&
+  if (urlPath !== "/" && urlPath !== "/maine-coon-litter-box-comparison.html" &&
+      !content.some((item) => item.path === urlPath) &&
       !homepage.includes(`href="${urlPath}"`)) {
     failures.push(`New article missing from homepage: ${urlPath}`);
   }
