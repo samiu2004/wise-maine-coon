@@ -15,12 +15,15 @@ interface PageData {
 }
 
 const { page } = Astro.props as { page: PageData };
-if (page.path === "/2026/09/maine-coon-litter-box-guide.html") {
-  page.html += '<p>Compare specific models in our <a href="/maine-coon-litter-box-comparison.html">eight-product Maine Coon litter-box comparison</a>, including access and measurement limitations.</p>';
-}
 const isArticle = page.type === "POST";
 const sections: {id: string; title: string}[] = [];
 let body = page.html.replace(/<p(?:\s[^>]*)?>\s*(?:<em>\s*<\/em>|<br\s*\/?>|&nbsp;|\s)*<\/p>/gi, "");
+if (page.path === "/2026/09/maine-coon-litter-box-guide.html") {
+  body += '<p>Compare specific models in our <a href="/maine-coon-litter-box-comparison.html">eight-product Maine Coon litter-box comparison</a>, including access and measurement limitations.</p>';
+}
+if (page.path === "/2026/08/maine-coon-food-guide.html") {
+  body += '<p>Feeding a growing kitten? See <a href="/2026/09/six-month-maine-coon-wet-food.html">how to work out a six-month-old Maine Coon’s wet-food portion</a> using the food label, daily calories and body condition.</p>';
+}
 body = body.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (_match, attrs, heading) => {
   const existing = attrs.match(/id=["']([^"']+)["']/);
   const id = existing?.[1] ?? `section-${sections.length + 1}`;

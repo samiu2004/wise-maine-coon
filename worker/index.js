@@ -20,6 +20,10 @@ export default {
       return Response.redirect(url.toString(), 301);
     }
 
+    if (url.pathname === "/preview/six-month-maine-coon-wet-food.html") {
+      return Response.redirect("https://www.wisemainecoon.com/2026/09/six-month-maine-coon-wet-food.html", 301);
+    }
+
     if (url.pathname === "/") {
       url.pathname = "/index.html";
       return env.ASSETS.fetch(new Request(url, request));
