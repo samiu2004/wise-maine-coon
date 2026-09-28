@@ -15,6 +15,10 @@ const condition = "https://wsava.org/wp-content/uploads/2020/08/Body-Condition-S
       <h1>{title}</h1>
       <p class="article-summary">Use the calorie label and your kitten's individual needs to find a sensible starting portion.</p>
     </header>
+    <figure class="feeding-photo">
+      <img src="/maine-coon-kitten-davide-castaldo.jpg" alt="Long-haired brown kitten looking up from a chair" width="1367" height="2048" loading="eager" decoding="async" fetchpriority="high" />
+      <figcaption>Photo by <a href="https://unsplash.com/photos/brown-maine-coon-kitten-IfL3QovlAbI">Davide Castaldo on Unsplash</a>.</figcaption>
+    </figure>
     <div class="article-layout">
       <div class="article-body">
         <p>The answer is in the calories, not the number of cans. A six-month-old Maine Coon may eat more or less than another kitten of the same age, and one can of wet food may contain very different calories from another. To find a useful starting portion, you need the food label, an estimate of your kitten's daily calorie needs, and a record of anything else they eat.</p>
@@ -69,6 +73,10 @@ const condition = "https://wsava.org/wp-content/uploads/2020/08/Body-Condition-S
   </article>
 </BaseLayout>
 <style>
+  .feeding-photo { max-width: 760px; margin: 0 auto 24px; }
+  .feeding-photo img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: center 40%; border-radius: 18px; }
+  .feeding-photo figcaption { margin-top: 7px; color: var(--muted); font-size: .82rem; text-align: right; }
+  .feeding-photo a { text-underline-offset: 3px; }
   .article-body { min-width: 0; }
   .article-aside nav { display: grid; gap: 10px; }
   .article-header h1 { max-width: 940px; margin-inline: auto; }
