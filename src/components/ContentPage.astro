@@ -17,7 +17,9 @@ interface PageData {
 const { page } = Astro.props as { page: PageData };
 const isArticle = page.type === "POST";
 const sections: {id: string; title: string}[] = [];
-let body = page.html.replace(/<p(?:\s[^>]*)?>\s*(?:<em>\s*<\/em>|<br\s*\/?>|&nbsp;|\s)*<\/p>/gi, "");
+let body = page.html.replace(/\\n/g, "\n").replace(/<p(?:\s[^>]*)?>\s*(?:<em>\s*<\/em>|<br\s*\/?>|&nbsp;|\s)*<\/p>/gi, "");
+// Remove layout-only breaks between blocks, preserving breaks within text.
+body = body.replace(/(<\/(?:div|p|table|ul|ol|h[2-4])>)\s*(?:<br\s*\/?>\s*)+(?=<(?:div|p|table|ul|ol|h[2-4])\b)/gi, "$1");
 if (page.path === "/2026/09/maine-coon-litter-box-guide.html") {
   body += '<p>Compare specific models in our <a href="/maine-coon-litter-box-comparison.html">eight-product Maine Coon litter-box comparison</a>, including access and measurement limitations.</p>';
 }
