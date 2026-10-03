@@ -351,7 +351,7 @@ h1, h2, h3 {
 .article-header { max-width: 890px; margin: 0 auto 24px; text-align: center; }
 .article-header h1 { margin-bottom: 16px; color: var(--pine); font-size: clamp(2rem, 3.6vw, 3.2rem); }
 .article-summary { max-width: 730px; margin: 0 auto; color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.22rem); }
-.article-meta { margin-top: 24px; display: flex; justify-content: center; flex-wrap: wrap; gap: 9px; color: #68776f; font-size: 0.91rem; font-weight: 700; }
+.article-meta { margin-top: 24px; display: flex; justify-content: center; flex-wrap: wrap; gap: 9px; color: var(--muted); font-size: 0.91rem; font-weight: 700; }
 .article-layout { display: grid; grid-template-columns: minmax(0, 760px) minmax(240px, 300px); justify-content: center; gap: 56px; align-items: start; }
 .policy-page .article-layout { display: block; max-width: 760px; margin-inline: auto; }
 
