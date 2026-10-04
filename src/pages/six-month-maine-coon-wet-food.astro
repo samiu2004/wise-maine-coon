@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import SourceCheck from "@/components/SourceCheck.astro";
 
 const title = "How Much Wet Food Should a Six-Month-Old Maine Coon Eat?";
 const cornell = "https://www.vet.cornell.edu/departments/cornell-feline-health-center/health-information/feline-health-topics/how-often-should-you-feed-your-cat";
@@ -24,7 +25,8 @@ export const listing = {
       <p class="eyebrow">Maine Coon feeding guide</p>
       <h1>{title}</h1>
       <p class="article-summary">Use the calorie label and your kitten's individual needs to find a sensible starting portion.</p>
-      <div class="article-meta"><span>By <a href="/p/about-wise-maine-coon.html">Sami Ullah</a></span><span aria-hidden="true">·</span><time datetime="2026-09-28">September 28, 2026</time></div>
+      <div class="article-meta"><span>By <a href="/p/about-wise-maine-coon.html">Sami Ullah</a></span><span aria-hidden="true">·</span><span>Published <time datetime={listing.published}>September 28, 2026</time></span><span aria-hidden="true">·</span><span>Last updated <time datetime={listing.updated}>October 4, 2026</time></span></div>
+      <SourceCheck date="2026-10-04" scope="Cornell's feeding-frequency guidance for cats aged six months to one year" url={cornell} />
     </header>
     <figure class="feeding-photo">
       <img src="/maine-coon-kitten-800.webp" srcset="/maine-coon-kitten-480.webp 480w, /maine-coon-kitten-800.webp 800w, /maine-coon-kitten-1200.webp 1200w" sizes="(max-width: 800px) calc(100vw - 40px), 760px" alt="Long-haired brown kitten looking up from a chair" width="1200" height="750" loading="eager" decoding="async" fetchpriority="high" />

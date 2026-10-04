@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import SourceCheck from "@/components/SourceCheck.astro";
 import content from "@/data/content.json";
 
 interface PageData {
@@ -14,6 +15,7 @@ interface PageData {
   labels: string[];
   heroImage: string | null;
   socialImage?: string;
+  sourceCheck?: { date: string; scope: string; url: string };
   html: string;
 }
 
@@ -58,6 +60,10 @@ const publishedLabel = new Intl.DateTimeFormat("en-US", {
   day: "numeric",
   year: "numeric"
 }).format(new Date(page.published));
+const hasContentUpdate = page.updated.slice(0, 10) !== page.published.slice(0, 10);
+const updatedLabel = new Intl.DateTimeFormat("en-US", {
+  month: "long", day: "numeric", year: "numeric", timeZone: "UTC"
+}).format(new Date(page.updated));
 ---
 
 <BaseLayout
@@ -79,11 +85,13 @@ const publishedLabel = new Intl.DateTimeFormat("en-US", {
         <div class="article-meta">
           <span>By <a href="/p/about-wise-maine-coon.html">Sami Ullah</a></span>
           <span aria-hidden="true">·</span>
-          <time datetime={page.published}>{publishedLabel}</time>
+          <span>Published <time datetime={page.published}>{publishedLabel}</time></span>
+          {hasContentUpdate && <><span aria-hidden="true">·</span><span>Last updated <time datetime={page.updated}>{updatedLabel}</time></span></>}
           <span aria-hidden="true">·</span>
           <span>Research-based</span>
         </div>
       )}
+      {isArticle && page.sourceCheck && <SourceCheck {...page.sourceCheck} />}
     </header>
     {quickAnswer && <section class="quick-answer" aria-label="Quick answer" set:html={quickAnswer} />}
     <div class="article-layout">

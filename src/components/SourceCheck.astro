@@ -1,0 +1,13 @@
+---
+interface Props { date: string; scope: string; url: string; }
+const { date, scope, url } = Astro.props;
+const label = new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(date));
+---
+<p class="source-check">
+  <strong>Source checked:</strong> <time datetime={date}>{label}</time>.
+  Scope: <a href={url}>{scope}</a>. This is a source check, not a veterinary review.
+</p>
+<style>
+  .source-check { margin: 16px auto 0; max-width: 730px; color: var(--muted); font-size: .875rem; line-height: 1.6; }
+  .source-check a { color: var(--pine); text-decoration: underline; }
+</style>
