@@ -3,6 +3,8 @@ import "@/styles/global.css";
 
 interface Props {
   title: string;
+  seoTitle?: string;
+  includeBrand?: boolean;
   description: string;
   canonicalPath?: string;
   image?: string | null;
@@ -16,6 +18,8 @@ interface Props {
 
 const {
   title,
+  seoTitle = title,
+  includeBrand = true,
   description,
   canonicalPath = Astro.url.pathname,
   image = null,
@@ -25,7 +29,7 @@ const {
 } = Astro.props;
 
 const siteName = "Wise Maine Coon";
-const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
+const fullTitle = includeBrand && seoTitle !== siteName ? `${seoTitle} | ${siteName}` : seoTitle;
 const canonical = new URL(canonicalPath, "https://www.wisemainecoon.com");
 const imageUrl = image ? new URL(image, "https://www.wisemainecoon.com").toString() : null;
 const structuredData = article ? {

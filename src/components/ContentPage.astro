@@ -5,6 +5,7 @@ import content from "@/data/content.json";
 interface PageData {
   type: string;
   title: string;
+  seoTitle?: string;
   path: string;
   description: string;
   published: string;
@@ -59,6 +60,8 @@ const publishedLabel = new Intl.DateTimeFormat("en-US", {
 
 <BaseLayout
   title={page.title}
+  seoTitle={page.seoTitle}
+  includeBrand={!isArticle}
   description={page.description}
   canonicalPath={page.path}
   image={page.heroImage}
