@@ -9,20 +9,20 @@ export default {
     const needsCanonicalHost = !isPreviewHost && url.hostname !== canonicalHost;
     const needsHttps = !isPreviewHost && url.protocol !== "https:";
     const hasMobileParameter = url.searchParams.has("m");
+    const hasLegacyArticlePath = url.pathname === "/preview/six-month-maine-coon-wet-food.html" ||
+      url.pathname === "/2026/09/six-month-maine-coon-wet-food.html";
 
-    if (needsCanonicalHost || needsHttps || hasMobileParameter) {
-      if (!isPreviewHost) {
+    if (needsCanonicalHost || needsHttps || hasMobileParameter || hasLegacyArticlePath) {
+      if (!isPreviewHost || hasLegacyArticlePath) {
         url.protocol = "https:";
         url.hostname = canonicalHost;
         url.port = "";
       }
       url.searchParams.delete("m");
+      if (hasLegacyArticlePath) {
+        url.pathname = "/six-month-maine-coon-wet-food.html";
+      }
       return Response.redirect(url.toString(), 301);
-    }
-
-    if (url.pathname === "/preview/six-month-maine-coon-wet-food.html" ||
-        url.pathname === "/2026/09/six-month-maine-coon-wet-food.html") {
-      return Response.redirect("https://www.wisemainecoon.com/six-month-maine-coon-wet-food.html", 301);
     }
 
     if (url.pathname === "/") {
