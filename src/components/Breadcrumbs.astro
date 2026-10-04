@@ -1,0 +1,43 @@
+---
+interface Props {
+  title: string;
+  path: string;
+  topic: string;
+  topicPath: string;
+}
+const { title, path, topic, topicPath } = Astro.props;
+const base = "https://www.wisemainecoon.com";
+const items = [
+  { name: "Home", path: "/" },
+  { name: topic, path: topicPath },
+  { name: title, path }
+];
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: items.map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: item.name,
+    item: new URL(item.path, base).toString()
+  }))
+};
+---
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    {items.map((item, index) => <li>
+      {index > 0 && <span class="breadcrumb-separator" aria-hidden="true">›</span>}
+      {index === items.length - 1
+        ? <span aria-current="page">{item.name}</span>
+        : <a href={item.path}>{item.name}</a>}
+    </li>)}
+  </ol>
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+<style>
+  .breadcrumbs { margin: 0 0 20px; color: var(--muted); font-size: .875rem; }
+  .breadcrumbs ol { display: flex; flex-wrap: wrap; gap: 6px 10px; list-style: none; padding: 0; margin: 0; }
+  .breadcrumbs li { display: flex; gap: 10px; align-items: baseline; min-width: 0; }
+  .breadcrumbs a { color: var(--pine); text-decoration: underline; text-underline-offset: 3px; }
+  .breadcrumbs [aria-current] { overflow-wrap: anywhere; }
+</style>

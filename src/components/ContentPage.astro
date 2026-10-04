@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import content from "@/data/content.json";
 
 interface PageData {
@@ -68,6 +69,7 @@ const publishedLabel = new Intl.DateTimeFormat("en-US", {
   article={isArticle ? { published: page.published, updated: page.updated } : null}
 >
   <article class:list={["content-page", { "article-page": isArticle, "policy-page": !isArticle }]}>
+    {isArticle && <Breadcrumbs title={page.title} path={page.path} topic={topicLabel} topicPath={`/#${topicId}`} />}
     <header class="article-header">
       {isArticle && <p class="eyebrow">Practical Maine Coon guide</p>}
       <h1>{page.title}</h1>

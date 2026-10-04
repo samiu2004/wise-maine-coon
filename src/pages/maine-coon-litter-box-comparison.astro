@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
 const products = [
   { name: "PetFusion BetterBox", type: "Open / high-sided", price: "$109.99", url: "https://www.petmate.com/products/petfusion-betterbox-cat-litter-box", gap: "Usable floor and entry height unverified." },
   { name: "Frisco High-Sided Extra Large", type: "Open / high-sided", price: "$23.99", url: "https://www.chewy.com/frisco-high-sided-cat-litter-box/dp/168285", gap: "24-inch overall length is not usable floor length." },
@@ -21,6 +22,7 @@ export const listing = {
 ---
 <BaseLayout title={title} seoTitle="Maine Coon Litter Boxes Compared: 8 Options & Fit Limits" includeBrand={false} description="Compare eight litter boxes by design, recorded price, access and measurement limitations. Research-based guidance with linked sources." canonicalPath="/maine-coon-litter-box-comparison.html" image="/og-litter-box-comparison.jpg" article={{ published: listing.published, updated: listing.published }}>
   <article class="content-page comparison-page">
+    <Breadcrumbs title={title} path="/maine-coon-litter-box-comparison.html" topic="Litter-box guides" topicPath="/#litter" />
     <header class="article-header">
       <p class="eyebrow">Litter-box comparison</p>
       <h1>{title}</h1>
