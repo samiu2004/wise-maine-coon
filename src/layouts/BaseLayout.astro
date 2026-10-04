@@ -71,6 +71,8 @@ const structuredData = article ? {
     {imageUrl && <meta property="og:image" content={imageUrl} />}
     {imageUrl && <meta property="og:image:alt" content={title} />}
     <meta name="twitter:card" content={imageUrl ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
     {imageUrl && <meta name="twitter:image" content={imageUrl} />}
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     {!preview && <script async src="https://www.googletagmanager.com/gtag/js?id=G-9M0SQNNPMW"></script>}

@@ -13,6 +13,7 @@ interface PageData {
   updated: string;
   labels: string[];
   heroImage: string | null;
+  socialImage?: string;
   html: string;
 }
 
@@ -65,7 +66,7 @@ const publishedLabel = new Intl.DateTimeFormat("en-US", {
   includeBrand={!isArticle}
   description={page.description}
   canonicalPath={page.path}
-  image={page.heroImage}
+  image={page.socialImage ?? page.heroImage}
   article={isArticle ? { published: page.published, updated: page.updated } : null}
 >
   <article class:list={["content-page", { "article-page": isArticle, "policy-page": !isArticle }]}>
