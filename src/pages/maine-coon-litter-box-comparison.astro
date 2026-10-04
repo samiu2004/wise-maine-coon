@@ -19,13 +19,19 @@ export const listing = {
   topic: "litter"
 };
 ---
-<BaseLayout title={title} description="Compare eight litter boxes by design, recorded price, access and measurement limitations. Research-based guidance with linked sources." canonicalPath="/maine-coon-litter-box-comparison.html" image="/og-litter-box-comparison.jpg" ogType="article">
+<BaseLayout title={title} description="Compare eight litter boxes by design, recorded price, access and measurement limitations. Research-based guidance with linked sources." canonicalPath="/maine-coon-litter-box-comparison.html" image="/og-litter-box-comparison.jpg" article={{ published: listing.published, updated: listing.published }}>
   <article class="content-page comparison-page">
     <header class="article-header">
       <p class="eyebrow">Litter-box comparison</p>
       <h1>{title}</h1>
       <p class="article-summary">Start with usable space and an accessible entrance. Check what the specifications actually tell you before choosing a box.</p>
-      <div class="article-meta"><span>By <a href="/p/about-wise-maine-coon.html">Sami Ullah</a></span><span aria-hidden="true">·</span><span>Research-based comparison</span></div>
+      <div class="article-meta">
+        <span>By <a href="/p/about-wise-maine-coon.html">Sami Ullah</a></span>
+        <span aria-hidden="true">·</span>
+        <span>Published <time datetime={listing.published}>September 22, 2026</time></span>
+        <span aria-hidden="true">·</span>
+        <span>Research-based comparison</span>
+      </div>
     </header>
     <div class="article-layout">
       <div class="article-body">
