@@ -31,6 +31,9 @@ if (page.path === "/2026/09/maine-coon-litter-box-guide.html") {
 if (page.path === "/2026/08/maine-coon-food-guide.html") {
   body += '<p>Feeding a growing kitten? See <a href="/six-month-maine-coon-wet-food.html">how to work out a six-month-old Maine Coon’s wet-food portion</a> using the food label, daily calories and body condition.</p>';
 }
+if (page.path.includes("care-guide") || page.path.includes("grooming")) {
+  body += '<p>Planning your cat’s environment? Read our <a href="/maine-coon-cat-tree.html">cat-tree fit guide</a>, <a href="/maine-coon-harness-fit.html">harness measuring guide</a> and <a href="/maine-coon-scratching-furniture.html">furniture-scratching guide</a>.</p>';
+}
 body = body.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (_match, attrs, heading) => {
   const existing = attrs.match(/id=["']([^"']+)["']/);
   const id = existing?.[1] ?? `section-${sections.length + 1}`;

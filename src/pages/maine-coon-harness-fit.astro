@@ -1,0 +1,8 @@
+---
+import ContentPage from "@/components/ContentPage.astro";
+import pages from "@/data/batch-one.json";
+const page = pages.find(item => item.path === "/maine-coon-harness-fit.html");
+if (!page) throw new Error("Missing article");
+export const listing = {"title": "Maine Coon Harness Fit: Measuring and First Steps", "path": "/maine-coon-harness-fit.html", "description": "Measure your Maine Coon for a cat harness, compare the correct sizing chart and introduce it gradually. Learn when harness walking may not suit your cat.", "published": "2026-10-13", "updated": "2026-10-13", "topic": "care"};
+---
+<ContentPage page={page} />

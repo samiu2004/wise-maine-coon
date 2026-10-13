@@ -1,0 +1,8 @@
+---
+import ContentPage from "@/components/ContentPage.astro";
+import pages from "@/data/batch-one.json";
+const page = pages.find(item => item.path === "/maine-coon-scratching-furniture.html");
+if (!page) throw new Error("Missing article");
+export const listing = {"title": "Maine Coon Scratching Furniture: What to Change First", "path": "/maine-coon-scratching-furniture.html", "description": "Help redirect Maine Coon furniture scratching with suitable posts, better placement and rewards. Use a simple log to check what your cat actually prefers.", "published": "2026-10-13", "updated": "2026-10-13", "topic": "care"};
+---
+<ContentPage page={page} />

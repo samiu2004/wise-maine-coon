@@ -528,3 +528,8 @@ h1, h2, h3 {
   }
   .site-header .mobile-navigation nav a { display: block; padding: 12px; min-height: 44px; }
 }
+
+.equipment-photo img { max-height: 480px; width: 100%; object-fit: contain; }
+.equipment-photo figcaption, .equipment-diagram figcaption { font-size: .875rem; line-height: 1.6; color: #53665f; }
+.equipment-photo, .equipment-diagram { margin: 1.5rem 0; }
+.equipment-diagram img { width: 100%; height: auto; }
