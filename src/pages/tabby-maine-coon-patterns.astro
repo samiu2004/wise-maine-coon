@@ -1,0 +1,8 @@
+---
+import ContentPage from "@/components/ContentPage.astro";
+import pages from "@/data/batch-two.json";
+const page = pages.find(item => item.path === "/tabby-maine-coon-patterns.html");
+if (!page) throw new Error("Missing article");
+export const listing = {"title":"Tabby Maine Coons: Classic, Mackerel and Ticked Patterns","path":"/tabby-maine-coon-patterns.html","description":"Compare classic, mackerel and ticked tabby Maine Coons. Learn which markings to look for, how registry rules differ and what a photograph cannot confirm.","published":"2026-10-14","updated":"2026-10-14","topic":"colors"};
+---
+<ContentPage page={page} />

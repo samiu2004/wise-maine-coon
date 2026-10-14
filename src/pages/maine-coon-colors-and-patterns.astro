@@ -1,0 +1,8 @@
+---
+import ContentPage from "@/components/ContentPage.astro";
+import pages from "@/data/batch-two.json";
+const page = pages.find(item => item.path === "/maine-coon-colors-and-patterns.html");
+if (!page) throw new Error("Missing article");
+export const listing = {"title":"Maine Coon Colors and Patterns: A Guide to Coat Terms","path":"/maine-coon-colors-and-patterns.html","description":"Understand Maine Coon colors and patterns, from tabby to smoke. Learn how to read coat names, compare registry terms and spot the limits of photographs.","published":"2026-10-14","updated":"2026-10-14","topic":"colors"};
+---
+<ContentPage page={page} />

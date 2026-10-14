@@ -1,0 +1,8 @@
+---
+import ContentPage from "@/components/ContentPage.astro";
+import pages from "@/data/batch-two.json";
+const page = pages.find(item => item.path === "/black-smoke-maine-coon.html");
+if (!page) throw new Error("Missing article");
+export const listing = {"title":"Black Smoke Maine Coons: Smoke vs Solid Black and Silver Tabby","path":"/black-smoke-maine-coon.html","description":"Compare black smoke Maine Coons with solid black and silver tabby. Learn which coat details to look for and what to ask when photographs leave doubts.","published":"2026-10-14","updated":"2026-10-14","topic":"colors"};
+---
+<ContentPage page={page} />

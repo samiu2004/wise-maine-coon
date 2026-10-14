@@ -34,6 +34,9 @@ if (page.path === "/2026/08/maine-coon-food-guide.html") {
 if (page.path.includes("care-guide") || page.path.includes("grooming")) {
   body += '<p>Planning your cat’s environment? Read our <a href="/maine-coon-cat-tree.html">cat-tree fit guide</a>, <a href="/maine-coon-harness-fit.html">harness measuring guide</a> and <a href="/maine-coon-scratching-furniture.html">furniture-scratching guide</a>.</p>';
 }
+if (page.path.includes("grooming") || page.path.includes("personality") || page.path.includes("size-growth")) {
+  body += '<p>Understanding a coat description? Read our <a href="/maine-coon-colors-and-patterns.html">Maine Coon colors and patterns overview</a>, with detailed guides to <a href="/tabby-maine-coon-patterns.html">tabby markings</a> and <a href="/black-smoke-maine-coon.html">black smoke compared with solid black and silver tabby</a>.</p>';
+}
 body = body.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (_match, attrs, heading) => {
   const existing = attrs.match(/id=["']([^"']+)["']/);
   const id = existing?.[1] ?? `section-${sections.length + 1}`;
@@ -54,10 +57,10 @@ const relatedTopics: Record<string, string[]> = {
 };
 const relatedKeys = Object.entries(relatedTopics).find(([key]) => page.path.includes(key))?.[1] ?? [];
 const related = relatedKeys.map(key => content.find(item => item.type === "POST" && item.path.includes(key))).filter(Boolean);
-const topicId = page.path.includes("litter-box") ? "litter"
+const topicId = page.labels.includes("Colors & patterns") ? "colors" : page.path.includes("litter-box") ? "litter"
   : page.path.includes("food") ? "feeding"
   : page.path.includes("size") ? "growth" : "care";
-const topicLabel = { litter: "litter-box guides", feeding: "feeding guides", growth: "size and growth guides", care: "grooming and care guides" }[topicId];
+const topicLabel = { litter: "litter-box guides", feeding: "feeding guides", growth: "size and growth guides", care: "grooming and care guides", colors: "colors and patterns guides" }[topicId];
 const publishedLabel = new Intl.DateTimeFormat("en-US", {
   month: "long",
   day: "numeric",
