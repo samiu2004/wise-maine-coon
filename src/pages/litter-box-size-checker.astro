@@ -1,0 +1,16 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import LitterBoxWorksheet from "@/components/LitterBoxWorksheet.astro";
+---
+<BaseLayout
+  title="Litter Box Size Checker"
+  description="Measure your cat and compare a litter box’s usable inside length with a veterinary sizing guideline. Includes inches/cm conversion and measurement diagrams."
+  canonicalPath="/litter-box-size-checker.html"
+  image="/og-litter-box-comparison.jpg"
+>
+  <div class="section-shell">
+    <Breadcrumbs title="Litter Box Size Checker" path="/litter-box-size-checker.html" topic="Litter-box guides" topicPath="/#litter" />
+  </div>
+  <LitterBoxWorksheet />
+</BaseLayout>
