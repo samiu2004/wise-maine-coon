@@ -1,0 +1,30 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import pages from '../src/data/batch-one.json' with {type:'json'};
+for (const page of pages) {
+  const html=fs.readFileSync(`dist${page.path}`,'utf8');
+  const canonicals=[...html.matchAll(/<link[^>]+rel="canonical"[^>]+href="([^"]+)"/g)];
+  assert.equal(canonicals.length,1);
+  assert.equal(canonicals[0][1],`https://www.wisemainecoon.com${page.path}`);
+  assert.ok(!/<meta[^>]+noindex/i.test(html));
+  const schemas=[...html.matchAll(/<script[^>]+type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
+  const posts=schemas.filter(s=>s['@type']==='BlogPosting');
+  assert.equal(posts.length,1);
+  const post=posts[0];
+  assert.equal(post.author['@type'],'Person');assert.equal(post.author.name,'Sami Ullah');
+  assert.equal(post.headline,page.title);
+  assert.equal(post.datePublished.slice(0,10),'2026-10-13');
+  assert.equal(post.dateModified.slice(0,10),'2026-10-17');
+  assert.equal(post.mainEntityOfPage,canonicals[0][1]);
+  assert.ok(post.image.startsWith('https://www.wisemainecoon.com/'));
+  assert.ok(html.includes('Last updated'));
+  const crumbs=schemas.filter(s=>s['@type']==='BreadcrumbList');assert.equal(crumbs.length,1);
+  assert.equal(crumbs[0].itemListElement.at(-1).item,canonicals[0][1]);
+  crumbs[0].itemListElement.forEach((item,i)=>{assert.equal(item.position,i+1);assert.ok(item.item.startsWith('https://'));});
+  assert.ok(!schemas.some(s=>['Product','Review','AggregateRating'].includes(s['@type'])));
+  assert.ok(!/[—–]/.test(page.html));
+  for(const image of [...page.html.matchAll(/<img[^>]+src="(\/images\/[^\"]+)"/g)])assert.ok(fs.existsSync(`public${image[1]}`));
+  for(const sibling of pages.filter(p=>p.path!==page.path))assert.ok(html.includes(`href="${sibling.path}"`));
+  console.log(`PASS canonical, article/breadcrumb schema, author, dates, assets and links: ${page.path}`);
+}
+console.log('Local markup checks passed. Google Rich Results processing and selected canonical require live/GSC validation.');
