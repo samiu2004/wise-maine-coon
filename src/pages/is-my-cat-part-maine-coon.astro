@@ -1,0 +1,9 @@
+---
+import ContentPage from "@/components/ContentPage.astro";
+import pages from "@/data/batch-three.json";
+const page = pages.find(item => item.path === "/is-my-cat-part-maine-coon.html");
+if (!page) throw new Error("Missing article");
+export const listing = {"title":"Is My Cat Part Maine Coon? Traits, Evidence & DNA Tests","path":"/is-my-cat-part-maine-coon.html","description":"Compare Maine Coon-like features, check ancestry records and understand DNA-test limits. An illustrated guide to what appearance can and cannot tell you.","published":"2026-10-21","updated":"2026-10-21","topic":"care"};
+---
+<ContentPage page={page} />
+

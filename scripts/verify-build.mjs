@@ -5,6 +5,7 @@ import content from "../src/data/content.json" with { type: "json" };
 const root = path.resolve("dist");
 const expected = ["/", "/maine-coon-litter-box-comparison.html", "/maine-coon-cat-tree.html", "/maine-coon-harness-fit.html", "/maine-coon-scratching-furniture.html", "/maine-coon-colors-and-patterns.html", "/tabby-maine-coon-patterns.html", "/black-smoke-maine-coon.html", ...content.map((item) => item.path)];
 expected.push("/litter-box-size-checker.html");
+expected.push("/is-my-cat-part-maine-coon.html", "/maine-coon-ownership-costs.html");
 const failures = [];
 
 function outputFile(urlPath) {

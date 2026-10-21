@@ -47,6 +47,12 @@ body = body.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (_match, attrs, heading) =>
 const quickMatch = body.match(/<p[^>]*>\s*<strong>Quick answer:<\/strong>[\s\S]*?<\/p>/i);
 const quickAnswer = quickMatch?.[0] ?? null;
 if (quickAnswer) body = body.replace(quickAnswer, "");
+if (page.path === "/2026/08/maine-coon-care-guide.html") {
+  body += '<p>Preparing for a new cat? Build your <a href="/maine-coon-ownership-costs.html">Maine Coon purchase and monthly care budget</a> before committing.</p>';
+}
+if (page.path === "/2026/08/maine-coon-size-growth-guide.html" || page.path === "/maine-coon-colors-and-patterns.html") {
+  body += '<p>Wondering whether your cat has Maine Coon ancestry? Compare <a href="/is-my-cat-part-maine-coon.html">physical traits, records and DNA-test limitations</a> before drawing a conclusion.</p>';
+}
 const relatedTopics: Record<string, string[]> = {
   "litter-box": ["size-growth", "care-guide"],
   "food-guide": ["size-growth", "care-guide"],

@@ -1,0 +1,9 @@
+---
+import ContentPage from "@/components/ContentPage.astro";
+import pages from "@/data/batch-three.json";
+const page = pages.find(item => item.path === "/maine-coon-ownership-costs.html");
+if (!page) throw new Error("Missing article");
+export const listing = {"title":"How Much Does a Maine Coon Cost? Purchase & Monthly Budget","path":"/maine-coon-ownership-costs.html","description":"Plan US Maine Coon ownership costs with dated breeder-price examples, a monthly budget worksheet, setup checks and a clear first-year calculation.","published":"2026-10-21","updated":"2026-10-21","topic":"care"};
+---
+<ContentPage page={page} />
+
