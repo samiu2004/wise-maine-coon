@@ -1,0 +1,9 @@
+---
+import ContentPage from "@/components/ContentPage.astro";
+import pages from "@/data/batch-four.json";
+const page = pages.find(item => item.path === "/maine-coon-vs-norwegian-forest-cat.html");
+if (!page) throw new Error("Missing article");
+export const listing = {"title":"Maine Coon vs Norwegian Forest Cat: Differences & Care","path":"/maine-coon-vs-norwegian-forest-cat.html","description":"Compare Maine Coon and Norwegian Forest Cat faces, size, personality and grooming. Learn which differences matter when choosing a cat and planning its care.","published":"2026-10-22","updated":"2026-10-22","topic":"care"};
+---
+<ContentPage page={page} />
+

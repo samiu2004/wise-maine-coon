@@ -1,0 +1,9 @@
+---
+import ContentPage from "@/components/ContentPage.astro";
+import pages from "@/data/batch-four.json";
+const page = pages.find(item => item.path === "/maine-coon-vs-ragdoll.html");
+if (!page) throw new Error("Missing article");
+export const listing = {"title":"Maine Coon vs Ragdoll: Size, Personality & Care","path":"/maine-coon-vs-ragdoll.html","description":"Compare Maine Coon vs Ragdoll size, personality, appearance and grooming. Use a sourced adult-weight chart and practical questions to choose a suitable companion.","published":"2026-10-22","updated":"2026-10-22","topic":"care"};
+---
+<ContentPage page={page} />
+
