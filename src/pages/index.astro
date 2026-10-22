@@ -35,26 +35,28 @@ const topics = [
   canonicalPath="/"
   image="/og-home.jpg"
 >
-  <section class="hero">
+  <section class="hero compact-home-hero">
     <div class="hero-grid">
       <div class="hero-copy">
         <p class="eyebrow">Understand your cat. Plan everyday care.</p>
-        <h1>Practical Maine Coon care, sizing and home setup.</h1>
-        <p>Find a feeding routine, understand growth, manage grooming, or choose a litter-box setup for your cat.</p>
+        <h1>Maine Coon care.<br />Made practical.</h1>
+        <p>Feeding, grooming and home setup guides to help you choose with confidence.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#guides">Explore care guides</a>
-          <a class="hero-secondary-link" href="/2026/08/maine-coon-care-guide.html">Start with everyday care</a>
+          <a class="button button-primary" href="#guides">Find a care guide <span aria-hidden="true">→</span></a>
+          <a class="button button-secondary" href="/litter-box-size-checker.html">Check litter-box fit <span aria-hidden="true">↗</span></a>
         </div>
       </div>
-      <nav class="intent-nav" aria-label="Choose a topic">
-        <p>What do you need help with?</p>
-        <a href="/2026/08/maine-coon-food-guide.html">Feeding <span>Food, portions and routines</span></a>
-        <a href="/2026/08/maine-coon-size-growth-guide.html">Size &amp; growth <span>Weight ranges and development</span></a>
-        <a href="/2026/08/maine-coon-grooming-guide.html">Grooming <span>Brushing, shedding and mats</span></a>
-        <a href={featured.path}>Litter-box setup <span>Size, access and placement</span></a>
-        <a href="/maine-coon-litter-box-comparison.html">Compare litter boxes <span>Eight options and their fit limitations</span></a>
-        <a href="/litter-box-size-checker.html">Litter-box size checker <span>Measure your cat and compare inside length</span></a>
-        <a href="/maine-coon-colors-and-patterns.html">Colors &amp; patterns <span>Coat names and visible markings</span></a>
+      <nav class="home-topic-panel" aria-label="Choose a topic">
+        <div class="home-topic-heading"><h2>What does your cat need?</h2><span class="home-topic-accent" aria-hidden="true">🐾</span></div>
+        <div class="home-topic-shortcuts">
+          <a href="#feeding">Feeding <span aria-hidden="true">↗</span></a>
+          <a href="#growth">Size &amp; growth <span aria-hidden="true">↗</span></a>
+          <a href="/2026/08/maine-coon-grooming-guide.html">Grooming <span aria-hidden="true">↗</span></a>
+          <a href="#litter">Home setup <span aria-hidden="true">↗</span></a>
+          <a href="#colors">Colors &amp; breeds <span aria-hidden="true">↗</span></a>
+          <a href="/litter-box-size-checker.html">Tools <span aria-hidden="true">↗</span></a>
+        </div>
+        <a class="home-browse-button" href="#guides">Browse all guides <span aria-hidden="true">→</span></a>
       </nav>
     </div>
   </section>
@@ -106,7 +108,7 @@ const topics = [
           <h3 id={`${topic.id}-title`}>{topic.title}</h3>
           <p>{topic.summary}</p>
           <ul>
-            {published.filter((article) => article.topic === topic.id).map((article) => (
+            {published.filter((article) => article.topic === topic.id || (topic.id === "litter" && /cat-tree|scratching-furniture/.test(article.path)) || (topic.id === "colors" && /vs-ragdoll|vs-norwegian/.test(article.path))).map((article) => (
               <li><a href={article.path}>{article.title}</a></li>
             ))}
           </ul>

@@ -541,3 +541,23 @@ h1, h2, h3 {
   .coat-gallery { grid-template-columns: 1fr; }
   .coat-gallery img { height: auto; max-height: 360px; }
 }
+
+/* Bounded homepage shortcuts: article growth never adds hero rows. */
+.compact-home-hero .hero-grid { min-height: 0; padding-block: 30px; grid-template-columns: minmax(0, 1.12fr) minmax(340px, 1fr); gap: 32px; }
+.compact-home-hero h1 { color: #fff; font-size: clamp(2.2rem, 4vw, 3.2rem); margin-bottom: 18px; }
+.compact-home-hero .hero-copy > p:not(.eyebrow) { font-size: 1.05rem; max-width: 490px; }
+.compact-home-hero .hero-actions { margin-top: 22px; gap: 10px; }
+.compact-home-hero .hero-actions .button { min-height: 46px; padding: 11px 17px; gap: 9px; font-size: .9rem; }
+.home-topic-panel { padding: 20px; background: #fff; color: var(--pine); border-radius: 18px; }
+.home-topic-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.home-topic-heading h2 { margin: 0; font-size: 1.05rem; line-height: 1.4; font-weight: 600; font-family: inherit; }
+.home-topic-accent { position: relative; display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--line); border-radius: 50%; }
+.home-topic-accent::after { content: ''; position: absolute; inset: -2px; border: 3px solid transparent; border-top-color: #a6bd31; border-radius: 50%; animation: home-accent-turn 7s linear 1; }
+.home-topic-shortcuts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.home-topic-shortcuts a { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 52px; padding: 11px 12px; background: #f2f6f1; color: var(--pine); border: 1px solid #e0e9e2; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: .9rem; transition: transform 160ms ease, background-color 160ms ease; }
+.home-topic-shortcuts a:hover { background: #e6efdf; transform: translateY(-2px); }
+.home-browse-button { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; margin-top: 12px; padding: 10px 14px; border-radius: 10px; color: #fff; background: var(--pine); text-decoration: none; font-weight: 600; }
+.home-browse-button:hover { background: #285846; }
+@keyframes home-accent-turn { to { transform: rotate(360deg); } }
+@media (max-width: 900px) { .compact-home-hero .hero-grid { grid-template-columns: 1fr; gap: 24px; padding-block: 26px; } }
+@media (prefers-reduced-motion: reduce) { .home-topic-accent::after { animation: none; } .home-topic-shortcuts a { transition: none; } .home-topic-shortcuts a:hover { transform: none; } }
