@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" role="img" aria-labelledby="title desc">
+<title id="title">A kitten's starter room</title><desc id="desc">A simple room plan showing food and water separated from the litter box, with a bed, hiding place and scratcher.</desc>
+<rect width="1000" height="650" rx="30" fill="#f5f1e9"/><text x="500" y="64" text-anchor="middle" font-family="sans-serif" font-size="34" font-weight="700" fill="#283f3d">A calm starter room</text>
+<rect x="90" y="105" width="820" height="460" rx="16" fill="#fffdf8" stroke="#657c72" stroke-width="8"/>
+<rect x="130" y="150" width="220" height="115" rx="20" fill="#c7ded1"/><circle cx="190" cy="204" r="30" fill="#668f83"/><circle cx="275" cy="204" r="30" fill="#86afa3"/><text x="240" y="248" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#183b35">Food and water</text>
+<rect x="650" y="380" width="205" height="125" rx="18" fill="#d5c4ae" stroke="#967d61" stroke-width="5"/><rect x="675" y="399" width="155" height="65" rx="10" fill="#eee2d1"/><text x="752" y="495" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#403528">Low-entry litter box</text>
+<ellipse cx="705" cy="212" rx="110" ry="65" fill="#dec7bc"/><ellipse cx="705" cy="208" rx="85" ry="43" fill="#fff7ef"/><text x="705" y="290" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#403528">Bed</text>
+<rect x="130" y="375" width="205" height="125" rx="20" fill="#d4d0c1"/><path d="M190 480v-45a42 42 0 0 1 84 0v45" fill="#5f6f63"/><text x="232" y="527" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#283f3d">Safe hiding place</text>
+<rect x="443" y="275" width="110" height="110" rx="12" fill="#d7bf95"/><path d="M458 292h80M458 308h80M458 324h80M458 340h80M458 356h80" stroke="#a28055" stroke-width="5"/><text x="498" y="416" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#403528">Stable scratcher</text>
+<text x="500" y="610" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#405850">Illustrative layout: keep food and water away from the litter box.</text></svg>
