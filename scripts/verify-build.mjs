@@ -57,6 +57,12 @@ function collectPublicHtml(dir) {
 }
 collectPublicHtml(root);
 for (const urlPath of publishedHtml) {
+  if (urlPath === "/maine-coon-growth-record.html") {
+    const worksheet = fs.readFileSync(outputFile(urlPath), "utf8");
+    if (!worksheet.includes('name="robots" content="noindex,follow"')) failures.push("Growth worksheet must remain noindex");
+    if (sitemapPaths.includes(urlPath)) failures.push("Print worksheet should not appear in sitemap");
+    continue;
+  }
   if (!sitemapPaths.includes(urlPath)) failures.push(`Published page missing from sitemap: ${urlPath}`);
   if (urlPath !== "/" && urlPath !== "/maine-coon-litter-box-comparison.html" &&
       !content.some((item) => item.path === urlPath) &&
