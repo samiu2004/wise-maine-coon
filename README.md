@@ -42,6 +42,22 @@ public byline, image rights and descriptive alt text, then run `npm run build`
 and `npm run verify` before deploying. Avoid changing the published date on an
 ordinary edit; use `updated` in the listing for a significant revision.
 
+## Pinterest publication feed
+
+`/pinterest-feed.xml` is an RSS 2.0 feed for approved Pinterest creative, separate
+from the article sitemap. Only entries with `approved: true` in
+`src/data/pinterest-pins.json` are included. Each entry has one dedicated vertical
+JPEG, its own Pin title and description, and an article URL on the claimed domain.
+Adding or updating an article does not automatically enqueue a Pin.
+
+Review artwork, copy, destination and whether the Pin was already posted manually
+before approving an entry. Keep its ID stable across ordinary edits; do not change
+an ID to force a repeat publication. Add a new version only for intentionally new,
+approved creative. The initial feed contains one allergy-guide Pin for testing,
+with no backfill of the older eight-pin batch. Connect it to the intended board
+only after checking the feed and image URLs; verify Pinterest's actual output
+before adding more entries. Its processing cadence is controlled by Pinterest.
+
 ## Cloudflare deployment
 
 The project is configured in `wrangler.jsonc` for Cloudflare Workers Static
