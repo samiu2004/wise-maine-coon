@@ -5,3 +5,4 @@ dist/
 .wrangler-dry-run/
 .sites-runtime/
 .DS_Store
+gha-creds-*.json

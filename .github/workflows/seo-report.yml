@@ -1,0 +1,41 @@
+name: Wise Maine Coon reporting
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/seo-report.yml
+      - scripts/check-reporting-access.py
+
+permissions:
+  contents: read
+
+jobs:
+  connection-check:
+    if: github.repository_id == '1373282410' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Obtain short-lived read-only Google token
+        id: google
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3
+        with:
+          workload_identity_provider: projects/984288753556/locations/global/workloadIdentityPools/wmc-reporting/providers/github
+          service_account: wise-maine-coon-reporter@wise-maine-coon-reporting.iam.gserviceaccount.com
+          project_id: wise-maine-coon-reporting
+          token_format: access_token
+          access_token_lifetime: 600s
+          access_token_scopes: https://www.googleapis.com/auth/webmasters.readonly,https://www.googleapis.com/auth/analytics.readonly
+          create_credentials_file: false
+          export_environment_variables: false
+      - name: Verify GSC and GA4 access without publishing analytics
+        env:
+          WMC_GOOGLE_ACCESS_TOKEN: ${{ steps.google.outputs.access_token }}
+        run: python3 scripts/check-reporting-access.py
