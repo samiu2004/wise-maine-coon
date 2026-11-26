@@ -2,11 +2,14 @@ name: Wise Maine Coon reporting
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '30 14 * * *' # 19:30 Pakistan (UTC+5)
   push:
     branches: [main]
     paths:
       - .github/workflows/seo-report.yml
       - scripts/check-reporting-access.py
+      - scripts/collect-seo-report.py
 
 permissions:
   contents: read
@@ -32,10 +35,14 @@ jobs:
           project_id: wise-maine-coon-reporting
           token_format: access_token
           access_token_lifetime: 600s
-          access_token_scopes: https://www.googleapis.com/auth/webmasters.readonly,https://www.googleapis.com/auth/analytics.readonly
+          access_token_scopes: https://www.googleapis.com/auth/webmasters.readonly,https://www.googleapis.com/auth/analytics.readonly,https://www.googleapis.com/auth/spreadsheets
           create_credentials_file: false
           export_environment_variables: false
       - name: Verify GSC and GA4 access without publishing analytics
         env:
           WMC_GOOGLE_ACCESS_TOKEN: ${{ steps.google.outputs.access_token }}
         run: python3 scripts/check-reporting-access.py
+      - name: Save reports to the private reporting sheet
+        env:
+          WMC_GOOGLE_ACCESS_TOKEN: ${{ steps.google.outputs.access_token }}
+        run: python3 scripts/collect-seo-report.py
