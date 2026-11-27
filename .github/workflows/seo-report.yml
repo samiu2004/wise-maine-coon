@@ -10,6 +10,7 @@ on:
       - .github/workflows/seo-report.yml
       - scripts/check-reporting-access.py
       - scripts/collect-seo-report.py
+      - scripts/reporting-windows.json
 
 permissions:
   contents: read

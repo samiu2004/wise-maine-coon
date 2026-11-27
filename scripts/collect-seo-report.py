@@ -52,6 +52,78 @@ def metric_rows(dataset, start, end, geo, dimensions, metrics, collected, source
     return result
 
 
+def collect_custom_windows(token, now, gsc_url, ga_url, site, collected):
+    """Explicit date requests; GSC comparisons share a conservative final cutoff.
+
+    Only dates/configuration live in Git. Reports remain in memory/private Sheets.
+    GA4 requested dates remain distinct from GSC's shorter final-data comparison.
+    """
+    config = json.loads(Path(__file__).with_name("reporting-windows.json").read_text())
+    windows = config.get("windows", [])
+    if len(windows) > 4:
+        raise ProbeError("Too many custom reporting windows")
+    result = []
+    for window in windows:
+        label = window["id"]
+        if not isinstance(label, str) or not label.replace("_", "").isalnum():
+            raise ProbeError("Invalid custom window identifier")
+        start, end = dt.date.fromisoformat(window["start"]), dt.date.fromisoformat(window["end"])
+        if not 1 <= (end - start).days + 1 <= 31 or end >= now.date():
+            raise ProbeError("Custom window must cover 1–31 past days")
+        coverage = request_json(token, gsc_url, {"startDate": start.isoformat(), "endDate": end.isoformat(), "dimensions": ["date"], "type": "web", "dataState": "all", "rowLimit": 100})
+        if not isinstance(coverage, dict) or "error" in coverage:
+            raise ProbeError("Unexpected custom GSC coverage response")
+        incomplete = coverage.get("metadata", {}).get("firstIncompleteDate")
+        cutoff = min(end, now.date() - dt.timedelta(days=3))
+        if incomplete:
+            cutoff = min(cutoff, dt.date.fromisoformat(incomplete) - dt.timedelta(days=1))
+        if cutoff < start:
+            raise ProbeError("Custom GSC window has no conservatively final period")
+        days = (cutoff - start).days + 1
+        gsc_periods = [("current", start, cutoff), ("previous", start - dt.timedelta(days=days), start - dt.timedelta(days=1))]
+        coverage_source = "GSC Web final; " + site + "; requested=" + start.isoformat() + ".." + end.isoformat() + "; final_cutoff=" + cutoff.isoformat() + "; policy=UTC-minus-3-days-and-firstIncompleteDate; metadata=" + json.dumps(coverage.get("metadata", {}), sort_keys=True)
+        result += metric_rows("GSC custom_" + label + " coverage", start, end, "All", {}, {"requested_days": (end - start).days + 1, "comparable_days": days}, collected, coverage_source)
+        for geo in ("All", "US"):
+            for suffix, pstart, pend in gsc_periods:
+                for name, dims, limit in [("totals", [], 1), ("pages", ["page"], 500)]:
+                    body = {"startDate": pstart.isoformat(), "endDate": pend.isoformat(), "dimensions": dims, "type": "web", "dataState": "final", "rowLimit": limit}
+                    if geo == "US":
+                        body["dimensionFilterGroups"] = [{"filters": [{"dimension": "country", "operator": "equals", "expression": "usa"}]}]
+                    response = request_json(token, gsc_url, body)
+                    if not isinstance(response, dict) or "error" in response:
+                        raise ProbeError("Unexpected custom GSC response")
+                    rows = response.get("rows", [])
+                    source = coverage_source + "; top-row limit=" + str(limit) + "; cap_reached=" + str(bool(dims) and len(rows) >= limit).lower()
+                    dataset = "GSC custom_" + label + "_" + suffix + " " + name
+                    if not rows:
+                        result += metric_rows(dataset, pstart, pend, geo, {}, {"returned_rows": 0}, collected, source)
+                    for row in rows:
+                        keys = row.get("keys", [])
+                        if len(keys) != len(dims):
+                            raise ProbeError("Unexpected custom GSC dimensions")
+                        result += metric_rows(dataset, pstart, pend, geo, dict(zip(dims, keys)), {k: row[k] for k in ["clicks", "impressions", "ctr", "position"]}, collected, source)
+            requested_days = (end - start).days + 1
+            for suffix, pstart, pend in [("current", start, end), ("previous", start - dt.timedelta(days=requested_days), start - dt.timedelta(days=1))]:
+                body = {"dateRanges": [{"startDate": pstart.isoformat(), "endDate": pend.isoformat()}], "metrics": [{"name": k} for k in GA_METRICS], "limit": "1"}
+                if geo == "US":
+                    body["dimensionFilter"] = {"filter": {"fieldName": "countryId", "stringFilter": {"matchType": "EXACT", "value": "US"}}}
+                response = request_json(token, ga_url, body)
+                if not isinstance(response, dict) or "error" in response or not response.get("metricHeaders"):
+                    raise ProbeError("Unexpected custom GA4 response")
+                dataset = "GA4 custom_" + label + "_" + suffix + " totals"
+                metadata = response.get("metadata", {})
+                source = "GA4 549214960; requested equal date periods; recent data subject to processing; metadata=" + json.dumps(metadata, sort_keys=True)
+                rows = response.get("rows", [])
+                if not rows:
+                    result += metric_rows(dataset, pstart, pend, geo, {}, {"returned_rows": 0}, collected, source)
+                for row in rows:
+                    metrics = {h["name"]: float(v["value"]) for h, v in zip(response["metricHeaders"], row["metricValues"])}
+                    if len(metrics) != len(GA_METRICS):
+                        raise ProbeError("Unexpected custom GA4 columns")
+                    result += metric_rows(dataset, pstart, pend, geo, {}, metrics, collected, source)
+    return result
+
+
 def collect(token, now):
     collected = (now - dt.datetime(1899, 12, 30, tzinfo=dt.timezone.utc)).total_seconds() / 86400
     sites = request_json(token, "https://www.googleapis.com/webmasters/v3/sites")
@@ -101,6 +173,7 @@ def collect(token, now):
                     if len(keys) != len(dims) or len(metrics) != len(GA_METRICS):
                         raise ProbeError("Unexpected GA4 columns")
                     output += metric_rows("GA4 " + label + " " + name, start, end, geo, dict(zip(dims, keys)), metrics, collected, source)
+    output += collect_custom_windows(token, now, gsc_url, ga_url, site, collected)
     return output
 
 
@@ -120,7 +193,7 @@ def save(token, rows, now):
     body = {"valueInputOption": "RAW", "data": [
         {"range": "Reports!A1:I" + str(len(values)), "values": values},
         {"range": "Connection!B8", "values": [["Snapshot saved " + now.isoformat(timespec="seconds")]]},
-        {"range": "Connection!A11:B13", "values": [["Snapshot rows", len(rows) - 1], ["Reporting periods", "7 and 28 days versus preceding equal periods; through UTC date minus 3 days"], ["Interpretation", "GSC hides some queries and returns top rows; do not sum query rows into site totals. GA4 user engagement duration is total seconds, not average session time."]]},
+        {"range": "Connection!A11:B13", "values": [["Snapshot rows", len(rows) - 1], ["Reporting periods", "7/28 days plus configured custom windows. Custom GSC uses conservatively final equal periods; requested GA4 dates are separate. Read each row's dates and provenance."], ["Interpretation", "GSC hides some queries and returns top rows; do not sum query rows into site totals. GA4 user engagement duration is total seconds, not average session time."]]},
     ]}
     if len(json.dumps(body).encode()) > 8000000:
         raise ProbeError("Report payload exceeds safe bound; previous snapshot retained")
