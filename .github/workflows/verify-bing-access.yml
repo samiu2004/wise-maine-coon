@@ -1,0 +1,33 @@
+name: Verify Bing Webmaster access
+on:
+  push:
+    branches: [verify-bing-access]
+permissions: {}
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Verify Wise Maine Coon
+        env:
+          BING_KEY: ${{ secrets.BING_WEBMASTER_API_KEY }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.parse, urllib.request
+          key = os.environ.get("BING_KEY")
+          if not key:
+              raise SystemExit("Bing secret unavailable.")
+          url = "https://www.bing.com/webmaster/api.svc/json/GetRankAndTrafficStats?"
+          url += urllib.parse.urlencode({"apikey": key, "siteUrl": "https://wisemainecoon.com/"})
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, *args, **kwargs):
+                  return None
+          try:
+              with urllib.request.build_opener(NoRedirect()).open(url, timeout=30) as response:
+                  result = json.load(response)
+          except Exception:
+              raise SystemExit("Bing read request failed.") from None
+          if not isinstance(result, dict) or not isinstance(result.get("d"), list):
+              raise SystemExit("Bing returned an unexpected response.")
+          print("Wise Maine Coon traffic endpoint verified.")
+          PY
