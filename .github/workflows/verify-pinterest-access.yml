@@ -1,0 +1,44 @@
+name: Verify Pinterest analytics
+on:
+  push:
+    branches: [verify-pinterest-access]
+permissions: {}
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - env:
+          PIN_TOKEN: ${{ secrets.PINTEREST_TEST_ACCESS_TOKEN }}
+        run: |
+          python - <<'PY'
+          import datetime, json, os, urllib.request, urllib.parse, urllib.error
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, *args, **kwargs):
+                  return None
+          token = os.environ.get("PIN_TOKEN")
+          if not token:
+              raise SystemExit("Pinterest token unavailable.")
+          def get(path, params=None):
+              url = "https://api.pinterest.com/v5/" + path
+              if params:
+                  url += "?" + urllib.parse.urlencode(params)
+              try:
+                  req = urllib.request.Request(url, headers={"Authorization": "Bearer " + token})
+                  with urllib.request.build_opener(NoRedirect()).open(req, timeout=20) as response:
+                      return json.load(response)
+              except urllib.error.HTTPError as error:
+                  raise SystemExit(f"Pinterest request returned HTTP {error.code}.") from None
+              except Exception:
+                  raise SystemExit("Pinterest request failed.") from None
+          pins = get("pins", {"page_size": 100}).get("items", [])
+          pin = next((p for p in pins if urllib.parse.urlsplit(p.get("link") or "").hostname in ("wisemainecoon.com", "www.wisemainecoon.com") and str(p.get("id", "")).isdigit()), None)
+          if pin is None:
+              raise SystemExit("No Wise Maine Coon Pin found on the first page.")
+          print("Wise Maine Coon Pin read succeeded.")
+          end = datetime.datetime.now(datetime.timezone.utc).date() - datetime.timedelta(days=2)
+          result = get("pins/" + str(pin["id"]) + "/analytics", {"start_date": end-datetime.timedelta(days=6), "end_date": end, "metric_types": "IMPRESSION,OUTBOUND_CLICK,SAVE"})
+          if not isinstance(result, dict):
+              raise SystemExit("Unexpected Pinterest analytics response.")
+          print("Pinterest Pin analytics read succeeded.")
+          PY
