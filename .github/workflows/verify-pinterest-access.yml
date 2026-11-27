@@ -9,16 +9,34 @@ jobs:
     timeout-minutes: 3
     steps:
       - env:
-          PIN_TOKEN: ${{ secrets.PINTEREST_TEST_ACCESS_TOKEN }}
+          PIN_REFRESH: ${{ secrets.PINTEREST_REFRESH_TOKEN }}
+          PIN_SECRET: ${{ secrets.PINTEREST_APP_SECRET }}
         run: |
           python - <<'PY'
-          import datetime, json, os, urllib.request, urllib.parse, urllib.error
+          import base64, datetime, json, os, urllib.request, urllib.parse, urllib.error
           class NoRedirect(urllib.request.HTTPRedirectHandler):
               def redirect_request(self, *args, **kwargs):
                   return None
-          token = os.environ.get("PIN_TOKEN")
+          refresh = os.environ.get("PIN_REFRESH")
+          secret = os.environ.get("PIN_SECRET")
+          if not refresh or not secret:
+              raise SystemExit("Pinterest OAuth credentials unavailable.")
+          auth = base64.b64encode(("1645664:" + secret).encode()).decode()
+          request = urllib.request.Request(
+              "https://api.pinterest.com/v5/oauth/token",
+              data=urllib.parse.urlencode({"grant_type": "refresh_token", "refresh_token": refresh}).encode(),
+              headers={"Authorization": "Basic " + auth, "Content-Type": "application/x-www-form-urlencoded"},
+          )
+          try:
+              with urllib.request.build_opener(NoRedirect()).open(request, timeout=20) as response:
+                  token = json.load(response)["access_token"]
+          except urllib.error.HTTPError as error:
+              raise SystemExit(f"Pinterest refresh returned HTTP {error.code}.") from None
+          except Exception:
+              raise SystemExit("Pinterest refresh failed.") from None
           if not token:
-              raise SystemExit("Pinterest token unavailable.")
+              raise SystemExit("Pinterest did not return an access token.")
+          print("Pinterest OAuth refresh succeeded.")
           def get(path, params=None):
               url = "https://api.pinterest.com/v5/" + path
               if params:
