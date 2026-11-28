@@ -1,0 +1,36 @@
+name: Verify RECOVERY-01 mobile
+on:
+  push:
+    branches: [qa-recovery-01]
+permissions: {}
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - run: npm install playwright && npx playwright install --with-deps chromium
+      - run: |
+          node <<'JS'
+          const {chromium}=require('playwright');
+          (async()=>{const b=await chromium.launch();try {
+            for(const width of [360,390]){
+              const p=await b.newPage({viewport:{width,height:844},isMobile:true,hasTouch:true});
+              const r=await p.goto('https://www.wisemainecoon.com/maine-coon-cat-tree.html',{timeout:30000});
+              if(!r.ok()) throw Error('Live page unavailable');
+              const img=p.locator('img[src*="cat-tree-perch-example"]');
+              await img.scrollIntoViewIfNeeded();
+              await p.waitForFunction(()=>document.querySelector('img[src*="cat-tree-perch-example"]')?.naturalWidth>0);
+              const m=await p.evaluate(()=>{
+                const img=document.querySelector('img[src*="cat-tree-perch-example"]');
+                const t=[...document.querySelectorAll('table')].find(t=>t.caption?.textContent.includes('Hypothetical resting-footprint'));
+                let a=t?.parentElement;
+                while(a && !/auto|scroll/.test(getComputedStyle(a).overflowX))a=a.parentElement;
+                if(a)a.scrollLeft=a.scrollWidth;
+                return {viewport:innerWidth,doc:document.documentElement.scrollWidth,image:img.getBoundingClientRect().width,alt:img.alt,table:!!t,usable:!!t&&(t.getBoundingClientRect().width<=innerWidth||!!a&&a.scrollLeft>0)};
+              });
+              console.log(width,m);
+              if(m.viewport!==width || m.doc>width+1 || m.image>width || !m.usable || m.alt!=='A hypothetical 16 by 12-inch resting footprint compared with an example 12.5 by 12.5-inch perch. Not a fit guarantee.') process.exitCode=1;
+              await p.close();
+            }
+          }finally{await b.close()}})().catch(e=>{console.error(e);process.exitCode=1});
+          JS
